@@ -83,6 +83,72 @@ __Response__
 
 </p></details>
 
+#### Exercise #2 - Arguments ####
+
+###### Prerequisites ######
+* Read [Queries &rarr; Arguments](https://graphql.org/learn/queries/#arguments)
+
+###### Tasks ######
+Not being able to do translations in typescript files in Angular has been driving you crazy. You recently found the issue
+that is going to fix this problem on the Angular GitHub repository and you want to check the status of the issue on GitHub
+but you are too lazy to go to the website to check it.
+
+Create a query using the [GitHub GraphQL API explorer](https://developer.github.com/v4/explorer/) to get back the following information from the Angular GitHub repository:
+* Repository title and name
+* Translation issue title, url and state
+
+The owner of the Angular repository is **angular** and the name of the repository is **angular** as well. The issue number is **11405**.
+
+<details><summary>Hint #1</summary><p>
+
+Use the `repository` root object
+
+</p></details>
+<details><summary>Hint #2</summary><p>
+
+The start of the query should look like this:
+query {
+  repository(owner: "angular", name: "angular") {  
+  }
+}
+
+</p></details>
+<details><summary>Answer</summary><p>
+
+__Query__
+```graphql
+query {
+  repository(owner: "angular", name: "angular") {
+    name
+    description
+    issue(number: 11405) {
+      title
+      url
+      state
+    }
+  }
+}
+```
+
+__Response__
+```graphql
+{
+  "data": {
+    "repository": {
+      "name": "angular",
+      "description": "One framework. Mobile & desktop.",
+      "issue": {
+        "title": "i18n: Able to use translation strings outside a template",
+        "url": "https://github.com/angular/angular/issues/11405",
+        "state": "OPEN"
+      }
+    }
+  }
+}
+```
+
+</p></details>
+
 ## Making a GraphQL Server ##
 
 TODO: Lex
