@@ -343,6 +343,40 @@ __Response__
 
 </p></details>
 
+### Exercise #5 - Operation name ###
+
+###### Prerequisites ######
+* Read [Queries &rarr; Operation name](https://graphql.org/learn/queries/#fragments)
+
+###### Tasks ######
+
+You are extremely proud of the query from **Exercise #5** you made. Give it a good operation name.
+
+<details><summary>Answer</summary><p>
+
+__Query__
+```graphql
+query issueWatcher {
+  angularRepository: repository(owner: "angular", name: "angular") {
+    name
+    description
+    translationIssue: issue(number: 11405) {
+      ...issueFields
+    }
+    bazelIssue: issue(number: 24521) {
+      ...issueFields
+    }
+  }
+}
+
+fragment issueFields on Issue {
+      title
+      url
+      status: state
+}
+```
+
+</p></details>
 
 ## Making a GraphQL Server ##
 
