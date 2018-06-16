@@ -392,7 +392,7 @@ Write a query that accepts a login as a required variable and returns the name, 
 
 <details><summary>Hint #1</summary><p>
 
-Use the `viewer` root object
+Use the `user` root object
 
 </p></details>
 <details><summary>Answer</summary><p>
