@@ -30,17 +30,12 @@ Create a query using the [GitHub GraphQL API explorer](https://developer.github.
 * createdAt
 * updatedAt
 
-<details>
-    <summary>Hint #1</summary>
-    <p>
+<details><summary>Hint #1</summary><p>
 
 Use the `viewer` root object
 
-    </p>
-</details>
-<details>
-    <summary>Hint #2</summary>
-    <p>
+</p></details>
+<details><summary>Hint #2</summary><p>
 
 The start of the query should look something like this:
 ```graphql
@@ -51,11 +46,8 @@ query {
 }
 ```
 
-    </p>
-</details>
-<details>
-    <summary>Answer</summary>
-    <p>
+</p></details>
+<details><summary>Answer</summary><p>
 
 __Query__
 ```graphql
@@ -89,8 +81,7 @@ __Response__
 }
 ```
 
-    </p>
-</details>
+</p></details>
 
 ## Making a GraphQL Server ##
 
