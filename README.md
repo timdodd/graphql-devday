@@ -164,7 +164,7 @@ You discover that you love Bazel, but there is an issue on the Angular site prev
 the Bazel issue as well as the translation issue from **Exercise 2**. The only problem is that it is confusing which issue
 is which in your query. Luckily, you just read about GraphQL Aliases. 
  
-Using the query from **Exercise 2** add the bazel issue (issue number 24521)
+Using the query from **Exercise 2** add the bazel issue (issue number 24521) with the same fields as the other issue (title, url and state).
 
 Replace the following fields with aliases:
 * repository &rarr; angularRepository
@@ -249,6 +249,99 @@ __Response__
 
 </p></details>
 
+### Exercise #4 - Fragments ###
+
+###### Prerequisites ######
+* Read [Queries &rarr; Fragments](https://graphql.org/learn/queries/#fragments)
+
+###### Tasks ######
+Now that you've read about fragments, you realize that the query from **Exercise 3** could be improved by adding a fragment
+for the two issues.
+
+Write a fragment to replace the repeated title, url and status fields on the issue object.
+
+<details><summary>Hint #1</summary><p>
+
+The answer to **Exercise 3** is:
+```graphql
+query {
+  angularRepository: repository(owner: "angular", name: "angular") {
+    name
+    description
+    translationIssue: issue(number: 11405) {
+      title
+      url
+      status: state
+    }
+    bazelIssue: issue(number: 24521) {
+      title
+      url
+      status: state
+    }
+  }
+}
+```
+
+</p></details>
+<details><summary>Hint #2</summary><p>
+
+The fragment should look like this:
+```graphql
+fragment issueFields on Issue {
+      title
+      url
+      status: state
+}
+```
+
+</p></details>
+<details><summary>Answer</summary><p>
+
+__Query__
+```graphql
+query {
+  angularRepository: repository(owner: "angular", name: "angular") {
+    name
+    description
+    translationIssue: issue(number: 11405) {
+      ...issueFields
+    }
+    bazelIssue: issue(number: 24521) {
+      ...issueFields
+    }
+  }
+}
+
+fragment issueFields on Issue {
+      title
+      url
+      status: state
+}
+```
+
+__Response__
+```graphql
+{
+  "data": {
+    "angularRepository": {
+      "name": "angular",
+      "description": "One framework. Mobile & desktop.",
+      "translationIssue": {
+        "title": "i18n: Able to use translation strings outside a template",
+        "url": "https://github.com/angular/angular/issues/11405",
+        "status": "OPEN"
+      },
+      "bazelIssue": {
+        "title": "Bazel build of router broken in 6.0.5",
+        "url": "https://github.com/angular/angular/issues/24521",
+        "status": "OPEN"
+      }
+    }
+  }
+}
+```
+
+</p></details>
 
 
 ## Making a GraphQL Server ##
