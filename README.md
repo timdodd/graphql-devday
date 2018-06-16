@@ -85,11 +85,10 @@ __Response__
 
 </p></details>
 
-### Exercise #2 - Arguments and Aliases ###
+### Exercise #2 - Arguments ###
 
 ###### Prerequisites ######
 * Read [Queries &rarr; Arguments](https://graphql.org/learn/queries/#arguments)
-* Read [Queries &rarr; Aliases](https://graphql.org/learn/queries/#aliases)
 
 ###### Tasks ######
 Not being able to do translations in typescript files in Angular has been driving you crazy. You recently found the issue
@@ -98,9 +97,7 @@ but you are too lazy to go to the website to check it.
 
 Create a query using the [GitHub GraphQL API explorer](https://developer.github.com/v4/explorer/) to get back the following information from the Angular GitHub repository:
 * Repository title and name
-  * Give the repository object an alias of `angularRepository`
 * Translation issue title, url and state
-  * Give the issue object an alias of `translationIssue`
 
 
 The owner of the Angular repository is **angular** and the name of the repository is **angular** as well. The issue number is **11405**.
@@ -163,12 +160,20 @@ __Response__
 * Read [Queries &rarr; Aliases](https://graphql.org/learn/queries/#aliases)
 
 ###### Tasks ######
-The query from **Exercise 2** objects could use some aliases. Give the following fields aliases:
+You discover that you love Bazel, but there is an issue on the Angular site preventing you from using it. You want to track
+the Bazel issue as well as the translation issue from **Exercise 2**. The only problem is that it is confusing which issue
+is which in your query. Luckily, you just read about GraphQL Aliases. 
+ 
+Using the query from **Exercise 2** add the bazel issue (issue number 24521)
+
+Replace the following fields with aliases:
 * repository &rarr; angularRepository
-* issue &rarr; translationIssue
-* state &rarr; status
+* issue(number: 11405) &rarr; translationIssue
+* issue(number: 24521) &rarr; bazelIssue
+* issue state &rarr; status
 
 <details><summary>Hint #1</summary><p>
+
 The answer to **Exercise 2** is:
 ```graphql
 query {
@@ -211,6 +216,11 @@ query {
       url
       status: state
     }
+    bazelIssue: issue(number: 24521) {
+      title
+      url
+      status: state
+    }
   }
 }
 ```
@@ -226,6 +236,11 @@ __Response__
         "title": "i18n: Able to use translation strings outside a template",
         "url": "https://github.com/angular/angular/issues/11405",
         "status": "OPEN"
+      },
+      "bazelIssue": {
+        "title": "Bazel build of router broken in 6.0.5",
+        "url": "https://github.com/angular/angular/issues/24521",
+        "status": "OPEN"
       }
     }
   }
@@ -233,6 +248,8 @@ __Response__
 ```
 
 </p></details>
+
+
 
 ## Making a GraphQL Server ##
 
