@@ -30,6 +30,8 @@ Create a query using the [GitHub GraphQL API explorer](https://developer.github.
 * createdAt
 * updatedAt
 
+Make sure you take advantage of the auto complete feature (ctrl + space) and the documentation located on the right side of the explorer.
+
 <details><summary>Hint #1</summary><p>
 
 Use the `viewer` root object
@@ -83,10 +85,11 @@ __Response__
 
 </p></details>
 
-### Exercise #2 - Arguments ###
+### Exercise #2 - Arguments and Aliases ###
 
 ###### Prerequisites ######
 * Read [Queries &rarr; Arguments](https://graphql.org/learn/queries/#arguments)
+* Read [Queries &rarr; Aliases](https://graphql.org/learn/queries/#aliases)
 
 ###### Tasks ######
 Not being able to do translations in typescript files in Angular has been driving you crazy. You recently found the issue
@@ -95,7 +98,10 @@ but you are too lazy to go to the website to check it.
 
 Create a query using the [GitHub GraphQL API explorer](https://developer.github.com/v4/explorer/) to get back the following information from the Angular GitHub repository:
 * Repository title and name
+  * Give the repository object an alias of `angularRepository`
 * Translation issue title, url and state
+  * Give the issue object an alias of `translationIssue`
+
 
 The owner of the Angular repository is **angular** and the name of the repository is **angular** as well. The issue number is **11405**.
 
@@ -107,10 +113,12 @@ Use the `repository` root object
 <details><summary>Hint #2</summary><p>
 
 The start of the query should look like this:
+```graphql
 query {
   repository(owner: "angular", name: "angular") {  
   }
 }
+```
 
 </p></details>
 <details><summary>Answer</summary><p>
@@ -141,6 +149,83 @@ __Response__
         "title": "i18n: Able to use translation strings outside a template",
         "url": "https://github.com/angular/angular/issues/11405",
         "state": "OPEN"
+      }
+    }
+  }
+}
+```
+
+</p></details>
+
+### Exercise #3 - Aliases ###
+
+###### Prerequisites ######
+* Read [Queries &rarr; Aliases](https://graphql.org/learn/queries/#aliases)
+
+###### Tasks ######
+The query from **Exercise 2** objects could use some aliases. Give the following fields aliases:
+* repository &rarr; angularRepository
+* issue &rarr; translationIssue
+* state &rarr; status
+
+<details><summary>Hint #1</summary><p>
+The answer to **Exercise 2** is:
+```graphql
+query {
+  repository(owner: "angular", name: "angular") {
+    name
+    description
+    issue(number: 11405) {
+      title
+      url
+      state
+    }
+  }
+}
+```
+
+</p></details>
+<details><summary>Hint #2</summary><p>
+
+Renaming the repository looks like this: 
+```graphql
+query {
+  angularRepository: repository(owner: "angular", name: "angular") {
+    name
+    ...
+  }
+}
+```
+
+</p></details>
+<details><summary>Answer</summary><p>
+
+__Query__
+```graphql
+query {
+  angularRepository: repository(owner: "angular", name: "angular") {
+    name
+    description
+    translationIssue: issue(number: 11405) {
+      title
+      url
+      status: state
+    }
+  }
+}
+```
+
+__Response__
+```graphql
+{
+  "data": {
+    "angularRepository": {
+      "name": "angular",
+      "description": "One framework. Mobile & desktop.",
+      "translationIssue": {
+        "title": "i18n: Able to use translation strings outside a template",
+        "url": "https://github.com/angular/angular/issues/11405",
+        "status": "OPEN"
       }
     }
   }
