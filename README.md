@@ -17,7 +17,7 @@ To confirm the setup worked, run the sample query by hitting the play button. Th
 ### Exercise #1 - Fields ###
 
 ###### Prerequisites ######
-* Read [Queries &rarr; Fields](https://graphql.org/learn/queries/#fields)
+* Read [Queries and Mutations &rarr; Fields](https://graphql.org/learn/queries/#fields)
 
 ###### Tasks ######
 You are bored and want to look up information about your GitHub user, but you are too proud to go to the GitHub website to view it.
@@ -88,7 +88,7 @@ __Response__
 ### Exercise #2 - Arguments ###
 
 ###### Prerequisites ######
-* Read [Queries &rarr; Arguments](https://graphql.org/learn/queries/#arguments)
+* Read [Queries and Mutations &rarr; Arguments](https://graphql.org/learn/queries/#arguments)
 
 ###### Tasks ######
 Not being able to do translations in typescript files in Angular has been driving you crazy. You recently found the issue
@@ -157,7 +157,7 @@ __Response__
 ### Exercise #3 - Aliases ###
 
 ###### Prerequisites ######
-* Read [Queries &rarr; Aliases](https://graphql.org/learn/queries/#aliases)
+* Read [Queries and Mutations &rarr; Aliases](https://graphql.org/learn/queries/#aliases)
 
 ###### Tasks ######
 You discover that you love Bazel, but there is an issue on the Angular site preventing you from using it. You want to track
@@ -252,7 +252,7 @@ __Response__
 ### Exercise #4 - Fragments ###
 
 ###### Prerequisites ######
-* Read [Queries &rarr; Fragments](https://graphql.org/learn/queries/#fragments)
+* Read [Queries and Mutations &rarr; Fragments](https://graphql.org/learn/queries/#fragments)
 
 ###### Tasks ######
 Now that you've read about fragments, you realize that the query from **Exercise 3** could be improved by adding a fragment
@@ -346,7 +346,7 @@ __Response__
 ### Exercise #5 - Operation name ###
 
 ###### Prerequisites ######
-* Read [Queries &rarr; Operation name](https://graphql.org/learn/queries/#fragments)
+* Read [Queries and Mutations &rarr; Operation name](https://graphql.org/learn/queries/#operation-name)
 
 ###### Tasks ######
 
@@ -356,7 +356,7 @@ You are extremely proud of the query from **Exercise #5** you made. Give it a go
 
 __Query__
 ```graphql
-query issueWatcher {
+query IssueWatcher {
   angularRepository: repository(owner: "angular", name: "angular") {
     name
     description
@@ -377,6 +377,65 @@ fragment issueFields on Issue {
 ```
 
 </p></details>
+
+### Exercise #6 - Variables ###
+
+###### Prerequisites ######
+* Read [Schemas and Types &rarr; Type system](https://graphql.org/learn/schema/#type-system)
+* Read [Queries and Mutations &rarr; Variables](https://graphql.org/learn/queries/#variables)
+
+###### Tasks ######
+You just read about variables and you just thought of the perfect use case for it. You want to write a query using variables
+to look up the name, url, and bio of any GitHub user. Wow that is such a cool idea.
+
+Write a query that accepts a login as a required variable and returns the name, url, and bio of the GitHub user.
+
+<details><summary>Hint #1</summary><p>
+
+Use the `viewer` root object
+
+</p></details>
+<details><summary>Answer</summary><p>
+
+__Query__
+```graphql
+query UserLookup($login: String!) {
+  user(login: $login) {
+    name
+    bio
+    url
+  }
+}
+```
+
+__Query Variables__
+```graphql
+{
+  "login": "jimeh87"
+}
+```
+
+__Response__
+```graphql
+{
+  "data": {
+    "user": {
+      "name": "Jim",
+      "bio": null,
+      "url": "https://github.com/Jimeh87"
+    }
+  }
+}
+```
+
+</p></details>
+
+### Exercise #7 - Directives ###
+
+###### Prerequisites ######
+* Read [Queries and Mutations &rarr; Variables](https://graphql.org/learn/queries/#variables)
+
+###### Tasks ######
 
 ## Making a GraphQL Server ##
 
