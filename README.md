@@ -33,58 +33,58 @@ Create a query using the [GitHub GraphQL API explorer](https://developer.github.
 <details>
     <summary>Hint #1</summary>
     <p>
-        Use the `viewer` root object
+Use the `viewer` root object
     </p>
 </details>
 
 <details>
     <summary>Hint #2</summary>
     <p>
-        The start of the query should look something like this:
-        ```graphql
-        query { 
-          viewer {
-            login
-          }
-        }
-        ```
+The start of the query should look something like this:
+```graphql
+query { 
+  viewer {
+    login
+  }
+}
+```
     </p>
 </details>
 
 <details>
     <summary>Answer</summary>
     <p>
-        __Query__
-        ```graphql
-        query { 
-          viewer {
-            login
-            name
-            avatarUrl
-            url
-            bio
-            createdAt
-            updatedAt
-          }
-        }
-        ```
-        
-        __Response__
-        ```graphql
-        {
-          "data": {
-            "viewer": {
-              "login": "youruser",
-              "name": "your name",
-              "avatarUrl": "https://avatars1.githubusercontent.com/u/1234",
-              "url": "https://github.com/youruser",
-              "bio": null,
-              "createdAt": "2012-05-04T01:05:26Z",
-              "updatedAt": "2018-05-03T16:44:05Z"
-            }
-          }
-        }
-        ```
+__Query__
+```graphql
+query { 
+  viewer {
+    login
+    name
+    avatarUrl
+    url
+    bio
+    createdAt
+    updatedAt
+  }
+}
+```
+
+__Response__
+```graphql
+{
+  "data": {
+    "viewer": {
+      "login": "youruser",
+      "name": "your name",
+      "avatarUrl": "https://avatars1.githubusercontent.com/u/1234",
+      "url": "https://github.com/youruser",
+      "bio": null,
+      "createdAt": "2012-05-04T01:05:26Z",
+      "updatedAt": "2018-05-03T16:44:05Z"
+    }
+  }
+}
+```
     </p>
 </details>
 
