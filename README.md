@@ -477,8 +477,6 @@ If you are struggling with what an edge and a node is, this is how the GitHub do
 > ##### Node
 >Node is a generic term for an object. You can look up a node directly, or you can access related nodes via a connection. If you specify a node that does not return a scalar, you must include subfields until all fields return scalars. For information on accessing node IDs via the REST API v3 and using them in GraphQL queries, see "Using Global Node IDs."
 
-So to get to what is actually contained in the object you are going to need to go repositories &rarr; edges &rarr; node.
- 
 </p></details>
 <details><summary>Hint #3</summary><p>
 
@@ -573,6 +571,209 @@ __Response__
 
 </p></details>
 
+### Exercise #8 - Inline Fragments and Meta Fields ###
+
+###### Prerequisites ######
+* Read [Queries and Mutations &rarr; Inline Fragments](https://graphql.org/learn/queries/#inline-fragments)
+* Read [Queries and Mutations &rarr; Meta Fields](https://graphql.org/learn/queries/#meta-fields)
+###### Tasks ######
+Write a query to figure out the user login of a repository owner(s). Note that a `Repository` can be owned by a `User` which has one user or an
+`Organization` which has many users. So in the case of an organization, I would expect many results returned. I would also like to know the
+type of owner (user or organization)
+
+For test data you can use `owner:"angular", name: "angular"` for an organization and `owner:"basarat", name: "typescript-collections"` for a
+single user owner or any other repositories you can think of.
+
+<details><summary>Hint #1</summary><p>
+
+Use the `repository` root object
+
+</p></details>
+<details><summary>Hint #2</summary><p>
+
+Since Owner can implement user or organization, you will need to write specific code for each type. Something like this should get you started:
+```graphql
+query {
+	repository(owner:"foo", name: "bar") {
+    owner {
+      ... on User {
+        login
+      }
+      ... on Organization {
+        [insert organization query here]
+      }
+    }
+  }
+}
+```
+
+</p></details>
+<details><summary>Answer</summary><p>
+
+__Query__
+```graphql
+query findOwnerLogins($owner: String!, $name: String!) {
+	repository(owner:$owner, name: $name) {
+    owner {
+      __typename
+      ... on User {
+        login
+      }
+      ... on Organization {
+        members(first: 10) {
+          edges {
+            node {
+              login
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+__Query Variables (User)__
+```graphql
+{
+  "owner": "basarat",
+  "name": "typescript-collections"
+}
+```
+
+__Response (User)__
+```graphql
+{
+  "data": {
+    "repository": {
+      "owner": {
+        "__typename": "User",
+        "login": "basarat"
+      }
+    }
+  }
+}
+```
+
+__Query Variables (Organization)__
+```graphql
+{
+  "owner": "angular",
+  "name": "angular"
+}
+```
+
+__Response (Organization)__
+```graphql
+{
+  "data": {
+    "repository": {
+      "owner": {
+        "__typename": "Organization",
+        "members": {
+          "edges": [
+            {
+              "node": {
+                "login": "heathkit"
+              }
+            },
+            {
+              "node": {
+                "login": "petebacondarwin"
+              }
+            },
+            {
+              "node": {
+                "login": "shyndman"
+              }
+            },
+            {
+              "node": {
+                "login": "jamesdaniels"
+              }
+            },
+            {
+              "node": {
+                "login": "markovuksanovic"
+              }
+            },
+            {
+              "node": {
+                "login": "matsko"
+              }
+            },
+            {
+              "node": {
+                "login": "linclark"
+              }
+            },
+            {
+              "node": {
+                "login": "mhevery"
+              }
+            },
+            {
+              "node": {
+                "login": "StephenFluin"
+              }
+            },
+            {
+              "node": {
+                "login": "IgorMinar"
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}
+```
+
+</p></details>
+
+### Exercise #9 - Introspection ###
+
+###### Prerequisites ######
+* Read [Introspection](https://graphql.org/learn/introspection/)
+* Read [GitHub Introspection](https://developer.github.com/v4/guides/intro-to-graphql/#discovering-the-graphql-api)
+###### Tasks ######
+Figure out the two possible types that a `RepositoryOwner` can be. 
+
+<details><summary>Answer</summary><p>
+
+__Query__
+```graphql
+query {
+  __type(name: "RepositoryOwner") {
+    name
+    possibleTypes {
+      name
+    }
+  }
+}
+```
+
+__Response__
+```graphql
+{
+  "data": {
+    "__type": {
+      "name": "RepositoryOwner",
+      "possibleTypes": [
+        {
+          "name": "Organization"
+        },
+        {
+          "name": "User"
+        }
+      ]
+    }
+  }
+}
+```
+
+</p></details>
 
 ## Making a GraphQL Server ##
 
