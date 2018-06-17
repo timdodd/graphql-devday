@@ -153,7 +153,7 @@ __Response__
 * Read [Queries and Mutations &rarr; Aliases](https://graphql.org/learn/queries/#aliases)
 
 #### Tasks
-You discover that you love Bazel, but there is an issue on the Angular site preventing you from using it. You want to track
+You discover that you love Bazel, but there is an issue in Angular preventing you from using it. You want to track
 the Bazel issue as well as the translation issue from **Exercise 2**. The only problem is that it is confusing which issue
 is which in your query. Luckily, you just read about GraphQL Aliases. 
  
