@@ -565,7 +565,106 @@ __Response__
 
 </p></details>
 
-## Exercise #8 - Inline Fragments and Meta Fields
+## Exercise #8 - Mutations
+#### Prerequisites
+* Read [Queries and Mutations &rarr; Mutations](https://graphql.org/learn/queries/#mutations)
+#### Tasks
+You are starting to become obsessed with the GitHub GraphQL API and refuse to use the website. The only problem is that
+there is an issue you want to add a reaction to, and you only just started learning about mutations. 
+
+Write a mutation to add a reaction to issue **number 1** on repository **graphql-devday** with an owner of **jimeh87**
+
+In order to add a reaction to the issue, you are going to need the **issue id**. You can write a query yourself, or you
+can take a peek at the first hint. Don't forget about the documentation to help figure out what to pass the mutation. Auto-complete
+will not be very helpful.
+
+Once you have run the mutation, you should be able to see your reaction on [Issue #1](https://github.com/Jimeh87/graphql-devday/issues/1).
+
+<details><summary>Hint [Get me the gosh darn issue id query]</summary><p>
+
+The repositories query section should look something like this:
+
+```graphql
+query {
+  repository(owner: "Jimeh87", name: "graphql-devday") {
+    issue(number: 1) {
+      id,
+      title,
+      reactions(last: 100) {
+        edges {
+          node {
+            user {
+              login
+              name
+            }
+            content
+          }
+        }
+      }
+    }
+  }
+}
+```
+  
+</p></details>
+<details><summary>Hint [What mutation am I supposed to be using]</summary><p>
+
+The `addReaction` is the mutation you are looking for.
+  
+</p></details>
+<details><summary>Hint [I can't figure out what to put in the input parameter]</summary><p>
+
+The subjectId is the id of the issue from the query in the first hint. The content is of ReactionContent type which can
+be `THUMBS_UP`, `THUMBS_DOWN`, `LAUGH`, `HOORAY`, `CONFUSED`, or `HEART`
+
+```graphql
+input: {
+    subjectId: "put id from query here"
+    content: THE_REACTION_CONTENT
+}
+```
+  
+</p></details>
+<details><summary>Answer</summary><p>
+
+__Query__
+```graphql
+mutation {
+  addReaction(input: {
+    subjectId: "MDU6SXNzdWUzMzMwMzY1NTk="
+    content: CONFUSED
+  }) {
+    reaction {
+      id
+      user {
+        login
+        name
+      },
+      content
+    }
+  }
+}
+```
+
+__Response__
+```graphql
+{
+  "data": {
+    "addReaction": {
+      "reaction": {
+        "id": "MDg6UmVhY3Rpb24yNTE5MjkyNw==",
+        "user": {
+          "login": "Jimeh87",
+          "name": "Jim"
+        },
+        "content": "CONFUSED"
+      }
+    }
+  }
+}
+```
+
+## Exercise #9 - Inline Fragments and Meta Fields
 
 #### Prerequisites
 * Read [Queries and Mutations &rarr; Inline Fragments](https://graphql.org/learn/queries/#inline-fragments)
@@ -726,7 +825,7 @@ __Response (Organization)__
 
 </p></details>
 
-## Exercise #9 - Introspection
+## Exercise #10 - Introspection
 
 #### Prerequisites
 * Read [Introspection](https://graphql.org/learn/introspection/)
