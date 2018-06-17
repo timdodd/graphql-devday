@@ -5,12 +5,6 @@ to get an overview of what GraphQL is.
 
 ### Part 1: [Queries and Mutations](queries_and_mutations.md)
 
+### Part 2: [GraphQL Server](graphql_server.md)
 
-
-## Making a GraphQL Server ##
-
-TODO: Lex
-
-## Making a Angular GraphQL Client ##
-
-TODO: Probably Jim
+### Part 3: [Angular GraphQL Client](#)

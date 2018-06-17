@@ -88,7 +88,7 @@ that is going to fix this problem on the Angular GitHub repository and you want 
 but you are too lazy to go to the website to check it.
 
 Create a query using the [GitHub GraphQL API explorer](https://developer.github.com/v4/explorer/) to get back the following information from the Angular GitHub repository:
-* Repository title and name
+* Repository name and description
 * Translation issue title, url and state
 
 
