@@ -430,11 +430,12 @@ __Response__
 * Read [Best Practices &rarr; Directives](https://graphql.org/learn/pagination/)
 
 #### Tasks
-An AMAZING enhancement to the query you made in **Exercise #6** would be if you could optionally view the repositories that
+An AMAZING enhancement to the query you made in **Exercise #6** would be if you could view the repositories that
 user has. You only want the repositories sometimes though. Add an optional parameter to your user look up query that is defaulted
 to false that returns the last 10 user repositories name and description if true.
 
 <details><summary>Hint [Exercise 6 Answer]</summary><p>
+
 The answer to **Exercise 6** is:
 
 __Query__
@@ -663,6 +664,8 @@ __Response__
   }
 }
 ```
+
+</p></details>
 
 ## Exercise #9 - Inline Fragments and Meta Fields
 
