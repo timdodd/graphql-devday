@@ -427,7 +427,7 @@ __Response__
 
 #### Prerequisites
 * Read [Queries and Mutations &rarr; Directives](https://graphql.org/learn/queries/#variables)
-* Read [Best Practices &rarr; Directives](https://graphql.org/learn/pagination/)
+* Read [Best Practices &rarr; Pagination](https://graphql.org/learn/pagination/)
 
 #### Tasks
 An AMAZING enhancement to the query you made in **Exercise #6** would be if you could view the repositories that
@@ -583,14 +583,12 @@ Once you have run the mutation, you should be able to see your reaction by going
 
 <details><summary>Hint [Get me the gosh darn issue id query]</summary><p>
 
-The repositories query section should look something like this:
-
 ```graphql
 query {
   repository(owner: "Jimeh87", name: "graphql-devday") {
     issue(number: 1) {
-      id,
-      title,
+      id
+      title
       reactions(last: 100) {
         edges {
           node {
