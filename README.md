@@ -1,25 +1,23 @@
-# GraphQL Dev Day #
+# GraphQL Development Day
 
 Welcome to the GraphQL development day. Please start off by reading [Introduction to GraphQL](https://graphql.org/learn/)
 to get an overview of what GraphQL is.
 
-# Queries and Mutations #
+# Queries and Mutations
 
-## Setup ##
+## Setup
 To learn about GraphQL we are going to use the GitHub GraphQL endpoint. To set this up go to the [GitHub GraphQL API explorer](https://developer.github.com/v4/explorer/) 
 and click **Sign in with GitHub**. You will need to authorize GraphQL API Explorer to access your git repos. If you aren't
 comfortable with that, I would suggest pairing with one of your less cowardly coworkers. 
 
 To confirm the setup worked, run the sample query by hitting the play button. The result should return your login id.
- 
-## Querying ##
 
-### Exercise #1 - Fields ###
+## Exercise #1 - Fields
 
-###### Prerequisites ######
+#### Prerequisites
 * Read [Queries and Mutations &rarr; Fields](https://graphql.org/learn/queries/#fields)
 
-###### Tasks ######
+#### Tasks
 You are bored and want to look up information about your GitHub user, but you are too proud to go to the GitHub website to view it.
 Create a query using the [GitHub GraphQL API explorer](https://developer.github.com/v4/explorer/) to get back the following information about your user:
 * login user name
@@ -85,12 +83,12 @@ __Response__
 
 </p></details>
 
-### Exercise #2 - Arguments ###
+## Exercise #2 - Arguments
 
-###### Prerequisites ######
+#### Prerequisites
 * Read [Queries and Mutations &rarr; Arguments](https://graphql.org/learn/queries/#arguments)
 
-###### Tasks ######
+#### Tasks
 Not being able to do translations in typescript files in Angular has been driving you crazy. You recently found the issue
 that is going to fix this problem on the Angular GitHub repository and you want to check the status of the issue on GitHub
 but you are too lazy to go to the website to check it.
@@ -154,12 +152,12 @@ __Response__
 
 </p></details>
 
-### Exercise #3 - Aliases ###
+## Exercise #3 - Aliases
 
-###### Prerequisites ######
+#### Prerequisites
 * Read [Queries and Mutations &rarr; Aliases](https://graphql.org/learn/queries/#aliases)
 
-###### Tasks ######
+#### Tasks
 You discover that you love Bazel, but there is an issue on the Angular site preventing you from using it. You want to track
 the Bazel issue as well as the translation issue from **Exercise 2**. The only problem is that it is confusing which issue
 is which in your query. Luckily, you just read about GraphQL Aliases. 
@@ -249,12 +247,12 @@ __Response__
 
 </p></details>
 
-### Exercise #4 - Fragments ###
+## Exercise #4 - Fragments
 
-###### Prerequisites ######
+#### Prerequisites
 * Read [Queries and Mutations &rarr; Fragments](https://graphql.org/learn/queries/#fragments)
 
-###### Tasks ######
+#### Tasks
 Now that you've read about fragments, you realize that the query from **Exercise 3** could be improved by adding a fragment
 for the two issues.
 
@@ -343,12 +341,12 @@ __Response__
 
 </p></details>
 
-### Exercise #5 - Operation name ###
+## Exercise #5 - Operation name
 
-###### Prerequisites ######
+#### Prerequisites
 * Read [Queries and Mutations &rarr; Operation name](https://graphql.org/learn/queries/#operation-name)
 
-###### Tasks ######
+#### Tasks
 
 You are extremely proud of the query from **Exercise #5** you made. Give it a good operation name.
 
@@ -378,13 +376,13 @@ fragment issueFields on Issue {
 
 </p></details>
 
-### Exercise #6 - Variables ###
+## Exercise #6 - Variables
 
-###### Prerequisites ######
+#### Prerequisites
 * Read [Schemas and Types &rarr; Type system](https://graphql.org/learn/schema/#type-system)
 * Read [Queries and Mutations &rarr; Variables](https://graphql.org/learn/queries/#variables)
 
-###### Tasks ######
+#### Tasks
 You just read about variables and you just thought of the perfect use case for it. You want to write a query using variables
 to look up the name, url, and bio of any GitHub user. Wow that is such a cool idea.
 
@@ -430,13 +428,13 @@ __Response__
 
 </p></details>
 
-### Exercise #7 - Directives and Pagination ###
+## Exercise #7 - Directives and Pagination
 
-###### Prerequisites ######
+#### Prerequisites
 * Read [Queries and Mutations &rarr; Directives](https://graphql.org/learn/queries/#variables)
 * Read [Best Practices &rarr; Directives](https://graphql.org/learn/pagination/)
 
-###### Tasks ######
+#### Tasks
 An AMAZING enhancement to the query you made in **Exercise #6** would be if you could optionally view the repositories that
 user has. You only want the repositories sometimes though. Add an optional parameter to your user look up query that is defaulted
 to false that returns the last 10 user repositories name and description if true.
@@ -571,12 +569,12 @@ __Response__
 
 </p></details>
 
-### Exercise #8 - Inline Fragments and Meta Fields ###
+## Exercise #8 - Inline Fragments and Meta Fields
 
-###### Prerequisites ######
+#### Prerequisites
 * Read [Queries and Mutations &rarr; Inline Fragments](https://graphql.org/learn/queries/#inline-fragments)
 * Read [Queries and Mutations &rarr; Meta Fields](https://graphql.org/learn/queries/#meta-fields)
-###### Tasks ######
+#### Tasks
 Write a query to figure out the user login of a repository owner(s). Note that a `Repository` can be owned by a `User` which has one user or an
 `Organization` which has many users. So in the case of an organization, I would expect many results returned. I would also like to know the
 type of owner (user or organization)
@@ -732,12 +730,12 @@ __Response (Organization)__
 
 </p></details>
 
-### Exercise #9 - Introspection ###
+## Exercise #9 - Introspection
 
-###### Prerequisites ######
+#### Prerequisites
 * Read [Introspection](https://graphql.org/learn/introspection/)
 * Read [GitHub Introspection](https://developer.github.com/v4/guides/intro-to-graphql/#discovering-the-graphql-api)
-###### Tasks ######
+#### Tasks
 Figure out the two possible types that a `RepositoryOwner` can be. 
 
 <details><summary>Answer</summary><p>
