@@ -466,17 +466,19 @@ __Query Variables__
 <details><summary>Hint #2</summary><p>
 
 If you are struggling with what an edge and a node is, this is how the GitHub documentation describe them:
->####Connection
+> ####Connection
 >Connections let you query related objects as part of the same call. With connections, you can use a single GraphQL call where you would have to use multiple calls to a REST API. For more information, see "Migrating from REST to GraphQL."
 >
 >It's helpful to picture a graph: dots connected by lines. The dots are nodes, the lines are edges. A connection defines a relationship between nodes.
 >
->#####Edge
+> #####Edge
 >Edges represent connections between nodes. When you query a connection, you traverse its edges to get to its nodes. Every edges field has a node field and a cursor field. Cursors are used for pagination.
 >
->#####Node
+> #####Node
 >Node is a generic term for an object. You can look up a node directly, or you can access related nodes via a connection. If you specify a node that does not return a scalar, you must include subfields until all fields return scalars. For information on accessing node IDs via the REST API v3 and using them in GraphQL queries, see "Using Global Node IDs."
 
+So to get to what is actually contained in the object you are going to need to go repositories &rarr; edges &rarr; node.
+ 
 </p></details>
 <details><summary>Hint #3</summary><p>
 
