@@ -608,7 +608,7 @@ query {
 </p></details>
 <details><summary>Hint [What mutation am I supposed to be using]</summary><p>
 
-The `addReaction` is the mutation you are looking for.
+The `addReaction` mutation is what you are looking for.
   
 </p></details>
 <details><summary>Hint [I can't figure out what to put in the input parameter]</summary><p>
@@ -671,6 +671,9 @@ __Response__
 * Read [Queries and Mutations &rarr; Inline Fragments](https://graphql.org/learn/queries/#inline-fragments)
 * Read [Queries and Mutations &rarr; Meta Fields](https://graphql.org/learn/queries/#meta-fields)
 #### Tasks
+You just watched a youtube video on how to become a l33t hacker and you want to start by hacking the github. First you need a
+bunch of logins to try your new skillz.
+
 Write a query to figure out the user login of a repository owner(s). Note that a `Repository` can be owned by a `User` which has one user or an
 `Organization` which has many users. So in the case of an organization, I would expect many results returned. I would also like to know the
 type of owner (user or organization)
@@ -690,7 +693,6 @@ Since RepositoryOwner can implement user or organization, you will need to write
 query {
   repository(owner: "foo", name: "bar") {
     owner {
-      __typename
       ... on User {
         login
       }
@@ -835,7 +837,8 @@ __Response (Organization)__
 * Read [Introspection](https://graphql.org/learn/introspection/)
 * Read [GitHub Introspection](https://developer.github.com/v4/guides/intro-to-graphql/#discovering-the-graphql-api)
 #### Tasks
-Figure out the two possible types that a `RepositoryOwner` can be. 
+You just read two articles on GraphQL introspection and have ascended above documentation. You no longer read documentation, 
+you query it. Write a query using introspection to figure out the two possible types that a `RepositoryOwner` can be. 
 
 <details><summary>Answer</summary><p>
 
