@@ -16,17 +16,20 @@ something horribly wrong has happened.
 You are obsessed with gardening but you can never remember how many and what type of plants you have in your garden. Like
 any good programmer, you decide the best way to deal with this problem is to write a little garden inventory application.
 
-What is already done for you:
+###### What is already done for you
 * `Garden` and `Plant` JPA entities. Garden has many Plants. 
   * Repositories and CRUD services for those entities are also done
   * `hsqldb` is setup as the database.
-* GraphQL Dependencies (Already added)
+* GraphQL Dependencies
   * `com.graphql-java:graphql-spring-boot-starter`
     * This handles most of the configuration needed to get a GraphQL endpoint up and running.
   * `com.graphql-java:graphql-java-tools`
-    * A schema-first tool for graphql-java inspired by graphql-tools for JS
-    * There a number of other [GraphQL Libraries](https://github.com/graphql-java/awesome-graphql-java) we could have used. This library seems very well supported and intuitive.
+    * A schema-first tool for graphql-java inspired by graphql-tools for Javascript
+    * There a number of other [GraphQL Libraries](https://github.com/graphql-java/awesome-graphql-java) we could have used. 
+This library is very well supported and so things don't get too confusing that is all we are going to use.
   * `com.graphql-java:graphiql-spring-boot-starter`
     * A graphical interactive in-browser GraphQL IDE that we can use to query our Garden application.
+    
+## Exercise #1 - Schema
 
 
