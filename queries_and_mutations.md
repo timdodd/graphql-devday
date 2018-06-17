@@ -2,8 +2,7 @@
 
 ## Setup
 To learn about GraphQL we are going to use the GitHub GraphQL endpoint. To set this up go to the [GitHub GraphQL API explorer](https://developer.github.com/v4/explorer/) 
-and click **Sign in with GitHub**. You will need to authorize GraphQL API Explorer to access your git repos. If you aren't
-comfortable with that, I would suggest pairing with one of your less cowardly coworkers. 
+and click **Sign in with GitHub**. You will need to give GraphQL API Explorer access your git repos.
 
 To confirm the setup worked, run the sample query by hitting the play button. The result should return your login id.
 
