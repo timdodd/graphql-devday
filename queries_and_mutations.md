@@ -25,12 +25,12 @@ Create a query using the [GitHub GraphQL API explorer](https://developer.github.
 
 Make sure you take advantage of the auto complete feature (ctrl + space) and the documentation located on the right side of the explorer.
 
-<details><summary>Hint #1</summary><p>
+<details><summary>Hint [Where do I even start?]</summary><p>
 
 Use the `viewer` root object
 
 </p></details>
-<details><summary>Hint #2</summary><p>
+<details><summary>Hint [I'm still lost. Get me started!]</summary><p>
 
 The start of the query should look something like this:
 ```graphql
@@ -95,12 +95,12 @@ Create a query using the [GitHub GraphQL API explorer](https://developer.github.
 
 The owner of the Angular repository is **angular** and the name of the repository is **angular** as well. The issue number is **11405**.
 
-<details><summary>Hint #1</summary><p>
+<details><summary>Hint [Where do I even start?]</summary><p>
 
 Use the `repository` root object
 
 </p></details>
-<details><summary>Hint #2</summary><p>
+<details><summary>Hint [I'm still lost. Get me started!]</summary><p>
 
 The start of the query should look like this:
 ```graphql
@@ -165,7 +165,7 @@ Replace the following fields with aliases:
 * issue(number: 24521) &rarr; bazelIssue
 * issue state &rarr; status
 
-<details><summary>Hint #1</summary><p>
+<details><summary>Hint [Exercise 2 Answer]</summary><p>
 
 The answer to **Exercise 2** is:
 ```graphql
@@ -183,7 +183,7 @@ query {
 ```
 
 </p></details>
-<details><summary>Hint #2</summary><p>
+<details><summary>Hint [I can't figure out how to replace a field with an alias]</summary><p>
 
 Renaming the repository looks like this: 
 ```graphql
@@ -253,7 +253,7 @@ for the two issues.
 
 Write a fragment to replace the repeated title, url and status fields on the issue object.
 
-<details><summary>Hint #1</summary><p>
+<details><summary>Hint [Exercise 3 Answer]</summary><p>
 
 The answer to **Exercise 3** is:
 ```graphql
@@ -276,7 +276,7 @@ query {
 ```
 
 </p></details>
-<details><summary>Hint #2</summary><p>
+<details><summary>Hint [How is this stupid fragment thing supposed to look anyway?]</summary><p>
 
 The fragment should look like this:
 ```graphql
@@ -383,7 +383,7 @@ to look up the name, url, and bio of any GitHub user. Wow that is such a cool id
 
 Write a query that accepts a login as a required variable and returns the name, url, and bio of the GitHub user.
 
-<details><summary>Hint #1</summary><p>
+<details><summary>Hint [What root object am I supposed to start with?]</summary><p>
 
 Use the `user` root object
 
@@ -434,7 +434,8 @@ An AMAZING enhancement to the query you made in **Exercise #6** would be if you 
 user has. You only want the repositories sometimes though. Add an optional parameter to your user look up query that is defaulted
 to false that returns the last 10 user repositories name and description if true.
 
-<details><summary>Hint #1</summary><p>
+<details><summary>Hint [Exercise 6 Answer]</summary><p>
+The answer to **Exercise 6** is:
 
 __Query__
 ```graphql
@@ -456,7 +457,7 @@ __Query Variables__
 
 </p></details>
 
-<details><summary>Hint #2</summary><p>
+<details><summary>Hint [How does this connection edge node mumbo jumbo work?]</summary><p>
 
 If you are struggling with what an edge and a node is, this is how the GitHub documentation describe them:
 > #### Connection
@@ -471,7 +472,7 @@ If you are struggling with what an edge and a node is, this is how the GitHub do
 >Node is a generic term for an object. You can look up a node directly, or you can access related nodes via a connection. If you specify a node that does not return a scalar, you must include subfields until all fields return scalars. For information on accessing node IDs via the REST API v3 and using them in GraphQL queries, see "Using Global Node IDs."
 
 </p></details>
-<details><summary>Hint #3</summary><p>
+<details><summary>Hint [I'm still lost. Show me the light]</summary><p>
 
 The repositories query section should look something like this:
 ```graphql
@@ -577,14 +578,14 @@ type of owner (user or organization)
 For test data you can use `owner:"angular", name: "angular"` for an organization and `owner:"basarat", name: "typescript-collections"` for a
 single user owner or any other repositories you can think of.
 
-<details><summary>Hint #1</summary><p>
+<details><summary>Hint [What root object am I supposed to use?]</summary><p>
 
 Use the `repository` root object
 
 </p></details>
-<details><summary>Hint #2</summary><p>
+<details><summary>Hint [The multiple implementations of Owner is confusing me. Help a brother / sister out]</summary><p>
 
-Since Owner can implement user or organization, you will need to write specific code for each type. Something like this should get you started:
+Since RepositoryOwner can implement user or organization, you will need to write specific code for each type. Something like this should get you started:
 ```graphql
 query {
 	repository(owner:"foo", name: "bar") {
