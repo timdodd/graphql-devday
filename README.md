@@ -430,12 +430,147 @@ __Response__
 
 </p></details>
 
-### Exercise #7 - Directives ###
+### Exercise #7 - Directives and Pagination ###
 
 ###### Prerequisites ######
-* Read [Queries and Mutations &rarr; Variables](https://graphql.org/learn/queries/#variables)
+* Read [Queries and Mutations &rarr; Directives](https://graphql.org/learn/queries/#variables)
+* Read [Best Practices &rarr; Directives](https://graphql.org/learn/pagination/)
 
 ###### Tasks ######
+An AMAZING enhancement to the query you made in **Exercise #6** would be if you could optionally view the repositories that
+user has. You only want the repositories sometimes though. Add an optional parameter to your user look up query that is defaulted
+to false that returns the last 10 user repositories name and description if true.
+
+<details><summary>Hint #1</summary><p>
+
+__Query__
+```graphql
+query UserLookup($login: String!) {
+  user(login: $login) {
+    name
+    bio
+    url
+  }
+}
+```
+
+__Query Variables__
+```graphql
+{
+  "login": "jimeh87"
+}
+```
+
+</p></details>
+
+<details><summary>Hint #2</summary><p>
+
+If you are struggling with what an edge and a node is, this is how the GitHub documentation describe them:
+>####Connection
+>Connections let you query related objects as part of the same call. With connections, you can use a single GraphQL call where you would have to use multiple calls to a REST API. For more information, see "Migrating from REST to GraphQL."
+>
+>It's helpful to picture a graph: dots connected by lines. The dots are nodes, the lines are edges. A connection defines a relationship between nodes.
+>
+>#####Edge
+>Edges represent connections between nodes. When you query a connection, you traverse its edges to get to its nodes. Every edges field has a node field and a cursor field. Cursors are used for pagination.
+>
+>#####Node
+>Node is a generic term for an object. You can look up a node directly, or you can access related nodes via a connection. If you specify a node that does not return a scalar, you must include subfields until all fields return scalars. For information on accessing node IDs via the REST API v3 and using them in GraphQL queries, see "Using Global Node IDs."
+
+</p></details>
+<details><summary>Hint #3</summary><p>
+
+The repositories query section should look something like this:
+```graphql
+repositories(last: 10) @include(if: $withRepositories) {
+  edges {
+    node {
+      name,
+      description
+    }
+  }
+}
+```
+  
+</p></details>
+<details><summary>Answer</summary><p>
+
+__Query__
+```graphql
+query userLookup($login: String!, $withRepositories: Boolean = false) {
+  user(login: $login) {
+    name
+    bio
+    url
+    repositories(last: 10) @include(if: $withRepositories) {
+      edges {
+        node {
+          name,
+          description
+        }
+      }
+    }
+  }
+}
+```
+
+__Query Variables__
+```graphql
+{
+  "login": "jimeh87",
+  "withRepositories": true
+}
+```
+
+__Response__
+```graphql
+{
+  "data": {
+    "user": {
+      "name": "Jim",
+      "bio": null,
+      "url": "https://github.com/Jimeh87",
+      "repositories": {
+        "edges": [
+          {
+            "node": {
+              "name": "training",
+              "description": null
+            }
+          },
+          {
+            "node": {
+              "name": "game-of-life",
+              "description": "Angular 4 / Bootstrap 4 / Canvas implementation of the game of life"
+            }
+          },
+          {
+            "node": {
+              "name": "angular-attack-2018",
+              "description": "The 2018 Angular Attack Entry by Lowered Expectations"
+            }
+          },
+          {
+            "node": {
+              "name": "rankit",
+              "description": null
+            }
+          },
+          {
+            "node": {
+              "name": "graphql-devday",
+              "description": null
+            }
+          }
+        ]
+      }
+    }
+  }
+}
+```
+
+</p></details>
+
 
 ## Making a GraphQL Server ##
 
