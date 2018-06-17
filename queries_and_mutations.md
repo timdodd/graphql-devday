@@ -579,7 +579,7 @@ In order to add a reaction to the issue, you are going to need the **issue id**.
 can take a peek at the first hint. Don't forget about the documentation to help figure out what to pass the mutation. Auto-complete
 will not be very helpful.
 
-Once you have run the mutation, you should be able to see your reaction on [Issue #1](https://github.com/Jimeh87/graphql-devday/issues/1).
+Once you have run the mutation, you should be able to see your reaction by going to [Issue #1](https://github.com/Jimeh87/graphql-devday/issues/1).
 
 <details><summary>Hint [Get me the gosh darn issue id query]</summary><p>
 
@@ -690,17 +690,19 @@ Use the `repository` root object
 Since RepositoryOwner can implement user or organization, you will need to write specific code for each type. Something like this should get you started:
 ```graphql
 query {
-	repository(owner:"foo", name: "bar") {
+  repository(owner: "foo", name: "bar") {
     owner {
+      __typename
       ... on User {
         login
       }
       ... on Organization {
-        [insert organization query here]
+        Find all users in organization's logins
       }
     }
   }
 }
+
 ```
 
 </p></details>
@@ -709,7 +711,7 @@ query {
 __Query__
 ```graphql
 query findOwnerLogins($owner: String!, $name: String!) {
-	repository(owner:$owner, name: $name) {
+  repository(owner: $owner, name: $name) {
     owner {
       __typename
       ... on User {
@@ -727,6 +729,7 @@ query findOwnerLogins($owner: String!, $name: String!) {
     }
   }
 }
+
 ```
 
 __Query Variables (User)__
