@@ -30,41 +30,39 @@ This library is very well supported and so things don't get too confusing that i
   * `com.graphql-java:graphiql-spring-boot-starter`
     * A graphical interactive in-browser GraphQL IDE that we can use to query our Garden application.
     
-## Exercise #1 - The Basics
+## Exercise #1 - Root Query
 
 #### Prerequisites
 * Read [GraphQL Schema](https://graphql.org/learn/schema/)
 
 #### Tasks
+Your Garden Service layer is amazing but you need to get the data out some how. Like any good hipster, you decide you are
+going to use GraphQL. To test the waters lets expose all of the Gardens in our schema.
 
-##### Defining the Schema
 Since `graphql-java-tools` is schema first we will be creating a schema, and then implementing the schema as we go.
-
-To create our schema do the following:
 
 1. Create a file in the `src/main/resources` folder called `schema.graphqls`
 2. In the `schema.graphqls` add the following types:
-    1. plant type with the following fields // TODO Remove this
-        * id (required)
-        * plantType (required)
-        * quantity (required)
-    2. garden type with the following fields
-        * id (required)
+    1. Garden type with the following fields
+        * id (required with a type of ID)
         * title (required)
         * description
-        * plants // TODO: Remove this
-    3. query type
-        * gardens
+    2. Query type
+        * Gardens
             * Returns a list of the Garden Type
-            
-##### Plumbing in the Java
-
-1. Create a Root Query Resolver for gardens and plants
+3. Create a Root Query Resolver for the gardens query by doing the following
     * Create a class called `QueryResolver` that implements `GraphQLQueryResolver`
     * The class should be annotated with `@Component`
     * The class should have one method
         * `getGardens()` which returns a List of GardenDto's from the `GardenService` (You will need to transform it).
-2. 
+
+#### Testing
+* Start your server
+  * If it didn't start, check the stacktrace. It is sometimes helpful.
+* Go to [http://localhost:8080/graphiql](http://localhost:8080/graphiql) to test your code
+  * Alternatively you can enter [http://localhost:8080/graphql](http://localhost:8080/graphql) into your favorite GraphQL
+  query tool.
+* Write a query to get all the Gardens back and run it.
 
              
 <details><summary>Answer</summary><p>
