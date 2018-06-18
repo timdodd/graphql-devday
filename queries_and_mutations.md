@@ -59,7 +59,7 @@ query {
 ```
 
 __Response__
-```graphql
+```json
 {
   "data": {
     "viewer": {
@@ -128,7 +128,7 @@ query {
 ```
 
 __Response__
-```graphql
+```json
 {
   "data": {
     "repository": {
@@ -218,7 +218,7 @@ query {
 ```
 
 __Response__
-```graphql
+```json
 {
   "data": {
     "angularRepository": {
@@ -312,7 +312,7 @@ fragment issueFields on Issue {
 ```
 
 __Response__
-```graphql
+```json
 {
   "data": {
     "angularRepository": {
@@ -401,14 +401,14 @@ query UserLookup($login: String!) {
 ```
 
 __Query Variables__
-```graphql
+```json
 {
   "login": "jimeh87"
 }
 ```
 
 __Response__
-```graphql
+```json
 {
   "data": {
     "user": {
@@ -509,7 +509,7 @@ query userLookup($login: String!, $withRepositories: Boolean = false) {
 ```
 
 __Query Variables__
-```graphql
+```json
 {
   "login": "jimeh87",
   "withRepositories": true
@@ -517,7 +517,7 @@ __Query Variables__
 ```
 
 __Response__
-```graphql
+```json
 {
   "data": {
     "user": {
@@ -645,7 +645,7 @@ mutation {
 ```
 
 __Response__
-```graphql
+```json
 {
   "data": {
     "addReaction": {
@@ -732,7 +732,7 @@ query findOwnerLogins($owner: String!, $name: String!) {
 ```
 
 __Query Variables (User)__
-```graphql
+```json
 {
   "owner": "basarat",
   "name": "typescript-collections"
@@ -740,7 +740,7 @@ __Query Variables (User)__
 ```
 
 __Response (User)__
-```graphql
+```json
 {
   "data": {
     "repository": {
@@ -754,7 +754,7 @@ __Response (User)__
 ```
 
 __Query Variables (Organization)__
-```graphql
+```json
 {
   "owner": "angular",
   "name": "angular"
@@ -762,7 +762,7 @@ __Query Variables (Organization)__
 ```
 
 __Response (Organization)__
-```graphql
+```json
 {
   "data": {
     "repository": {
@@ -854,7 +854,7 @@ query {
 ```
 
 __Response__
-```graphql
+```json
 {
   "data": {
     "__type": {

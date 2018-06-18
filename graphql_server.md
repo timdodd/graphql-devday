@@ -30,6 +30,126 @@ This library is very well supported and so things don't get too confusing that i
   * `com.graphql-java:graphiql-spring-boot-starter`
     * A graphical interactive in-browser GraphQL IDE that we can use to query our Garden application.
     
-## Exercise #1 - Schema
+## Exercise #1 - The Basics
 
+#### Prerequisites
+* Read [GraphQL Schema](https://graphql.org/learn/schema/)
+
+#### Tasks
+
+##### Defining the Schema
+Since `graphql-java-tools` is schema first we will be creating a schema, and then implementing the schema as we go.
+
+To create our schema do the following:
+
+1. Create a file in the `src/main/resources` folder called `schema.graphqls`
+2. In the `schema.graphqls` add the following types:
+    1. plant type with the following fields // TODO Remove this
+        * id (required)
+        * plantType (required)
+        * quantity (required)
+    2. garden type with the following fields
+        * id (required)
+        * title (required)
+        * description
+        * plants // TODO: Remove this
+    3. query type
+        * gardens
+            * Returns a list of the Garden Type
+            
+##### Plumbing in the Java
+
+1. Create a Root Query Resolver for gardens and plants
+    * Create a class called `QueryResolver` that implements `GraphQLQueryResolver`
+    * The class should be annotated with `@Component`
+    * The class should have one method
+        * `getGardens()` which returns a List of GardenDto's from the `GardenService` (You will need to transform it).
+2. 
+
+             
+<details><summary>Answer</summary><p>
+
+__schema.graphqls__
+```graphql
+type Garden {
+    id: ID!
+    title: String!
+    description: String
+}
+
+type Query {
+    gardens: [Garden]!
+}
+```
+
+__QueryResolver.java__
+```java
+package com.jimrennie.graphql.devday.graphql.resolver;
+
+import com.coxautodev.graphql.tools.GraphQLQueryResolver;
+import com.jimrennie.graphql.devday.core.entity.Garden;
+import com.jimrennie.graphql.devday.core.service.GardenService;
+import com.jimrennie.graphql.devday.graphql.api.GardenDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Component
+public class QueryResolver implements GraphQLQueryResolver {
+
+	@Autowired
+	private GardenService gardenService;
+
+	public List<GardenDto> getGardens() {
+		return gardenService.getGardens()
+				.stream()
+				.map(this::toGardenDto)
+				.collect(Collectors.toList());
+	}
+
+	private GardenDto toGardenDto(Garden garden) {
+		return new GardenDto()
+				.setId(garden.getId())
+				.setTitle(garden.getTitle())
+				.setDescription(garden.getDescription());
+	}
+
+}
+
+```
+
+__Query__
+```graphql
+query {
+  gardens {
+    id
+    title
+    description
+  }
+}
+```
+
+__Response__
+```json
+{
+  "data": {
+    "gardens": [
+      {
+        "id": "1",
+        "title": "My First Garden",
+        "description": "This garden is full of hope, but also full of weeds."
+      },
+      {
+        "id": "5",
+        "title": "Herb Garden",
+        "description": "Parsley sage rosemary and thyme... and basil and dill"
+      }
+    ]
+  }
+}
+```
+
+</p></details>
 

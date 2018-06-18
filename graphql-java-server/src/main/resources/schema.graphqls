@@ -1,0 +1,9 @@
+type Garden {
+    id: ID!
+    title: String!
+    description: String
+}
+
+type query {
+    gardens(): [Garden]!
+}

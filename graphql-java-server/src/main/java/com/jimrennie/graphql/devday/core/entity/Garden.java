@@ -13,6 +13,7 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode(of = "id")
 @Accessors(chain = true)
+@ToString
 public class Garden {
 
 	@Id
@@ -30,4 +31,10 @@ public class Garden {
 	@JoinColumn(name = "GARDEN_ID", referencedColumnName = "ID")
 	@Setter(AccessLevel.NONE)
 	private List<Plant> plants = new ArrayList<>();
+
+	@Transient
+	public Garden addPlants(List<Plant> plants) {
+		this.plants.addAll(plants);
+		return this;
+	}
 }
