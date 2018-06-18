@@ -22,6 +22,14 @@ public class PlantService {
 		return plantRepository.findAllByPlantTypeIgnoreCase(plantType);
 	}
 
+	public List<Plant> findPlantsByGardenId(Long gardenId) {
+		return plantRepository.findPlantsByGardenId(gardenId);
+	}
+
+	public List<Plant> findPlantsByGardenIdAndPlantType(Long gardenId, String plantType) {
+		return plantRepository.findPlantsByGardenIdAndPlantTypeIgnoreCase(gardenId, plantType);
+	}
+
 	public Optional<Plant> getPlantById(Long id) {
 		return plantRepository.findById(id);
 	}

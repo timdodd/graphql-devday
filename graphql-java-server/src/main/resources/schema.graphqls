@@ -2,6 +2,7 @@ type Garden {
     id: ID!
     title: String!
     description: String
+    plants(plantType: String): [Plant]!
 }
 
 type Plant {

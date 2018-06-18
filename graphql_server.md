@@ -20,6 +20,7 @@ any good programmer, you decide the best way to deal with this problem is to wri
 * `Garden` and `Plant` JPA entities. Garden has many Plants. 
   * Repositories and CRUD services for those entities are also done
   * `hsqldb` is setup as the database.
+  * Assemblers to convert those JPA entities into your dtos.
 * GraphQL Dependencies
   * `com.graphql-java:graphql-spring-boot-starter`
     * This handles most of the configuration needed to get a GraphQL endpoint up and running.
@@ -84,9 +85,9 @@ __QueryResolver.java__
 package com.jimrennie.graphql.devday.graphql.resolver;
 
 import com.coxautodev.graphql.tools.GraphQLQueryResolver;
-import com.jimrennie.graphql.devday.core.entity.Garden;
 import com.jimrennie.graphql.devday.core.service.GardenService;
 import com.jimrennie.graphql.devday.graphql.api.GardenDto;
+import com.jimrennie.graphql.devday.graphql.assembler.GardenDtoAssembler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -98,23 +99,17 @@ public class QueryResolver implements GraphQLQueryResolver {
 
 	@Autowired
 	private GardenService gardenService;
+	@Autowired
+	private GardenDtoAssembler gardenDtoAssembler;
 
 	public List<GardenDto> getGardens() {
-		return gardenService.getGardens()
+		return gardenService.findAllGardens()
 				.stream()
-				.map(this::toGardenDto)
+				.map(gardenDtoAssembler::assemble)
 				.collect(Collectors.toList());
 	}
-
-	private GardenDto toGardenDto(Garden garden) {
-		return new GardenDto()
-				.setId(garden.getId())
-				.setTitle(garden.getTitle())
-				.setDescription(garden.getDescription());
-	}
-
+	
 }
-
 ```
 
 __Query__
@@ -192,12 +187,12 @@ __QueryResolver.java__
 package com.jimrennie.graphql.devday.graphql.resolver;
 
 import com.coxautodev.graphql.tools.GraphQLQueryResolver;
-import com.jimrennie.graphql.devday.core.entity.Garden;
-import com.jimrennie.graphql.devday.core.entity.Plant;
 import com.jimrennie.graphql.devday.core.service.GardenService;
 import com.jimrennie.graphql.devday.core.service.PlantService;
 import com.jimrennie.graphql.devday.graphql.api.GardenDto;
 import com.jimrennie.graphql.devday.graphql.api.PlantDto;
+import com.jimrennie.graphql.devday.graphql.assembler.GardenDtoAssembler;
+import com.jimrennie.graphql.devday.graphql.assembler.PlantDtoAssembler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -210,34 +205,24 @@ public class QueryResolver implements GraphQLQueryResolver {
 	@Autowired
 	private GardenService gardenService;
 	@Autowired
+	private GardenDtoAssembler gardenDtoAssembler;
+	@Autowired
 	private PlantService plantService;
+	@Autowired
+	private PlantDtoAssembler plantDtoAssembler;
 
 	public List<GardenDto> getGardens() {
 		return gardenService.findAllGardens()
 				.stream()
-				.map(this::toGardenDto)
+				.map(gardenDtoAssembler::assemble)
 				.collect(Collectors.toList());
 	}
 
 	public List<PlantDto> getPlants(String plantType) {
 		return plantService.findPlantsByPlantType(plantType)
 				.stream()
-				.map(this::toPlantDto)
+				.map(plantDtoAssembler::assemble)
 				.collect(Collectors.toList());
-	}
-
-	private GardenDto toGardenDto(Garden garden) {
-		return new GardenDto()
-				.setId(garden.getId())
-				.setTitle(garden.getTitle())
-				.setDescription(garden.getDescription());
-	}
-
-	private PlantDto toPlantDto(Plant plant) {
-		return new PlantDto()
-				.setId(plant.getId())
-				.setPlantType(plant.getPlantType())
-				.setQuantity(plant.getQuantity());
 	}
 
 }
@@ -275,3 +260,113 @@ __Response__
 ```
 
 </p></details>
+
+## Exercise #3 - Adding Plants to Garden Root Query
+
+#### Tasks
+You are querying your gardens root query and you are starting to get frustrated because you can't figure out which plants
+are actually in each garden. You also optionally want to be able to filter by plant type when getting the plants in my gardens.
+
+There are two ways to do this, the smart way and the dumb way. The smart way to do this would be to add a list of plants to
+the GardenDto and do the needed transformations. We are going to do this the dumb way because I don't feel like coming up with a 
+better example to show this.
+
+When you need to get a field that isn't immediately available to the entity you are querying, you can create a resolver
+to get the sub resource for you. To do this follow these steps:
+
+1. Create a class that `implements GraphQLResolver<GardenDto>` called `GardenResolver`
+2. Add the `@Component` annotation to the class
+3. Add a method `getPlants` that accepts a `GardenDto` and returns a list of `PlantDto`
+4. Use the PlantService to get the plants based on the `GardenDto` parameter's id.
+5. Add plants to your `Garden` Type in your schema and try it out with a query!
+
+Now add the ability to optionally filter the plants by plantType.
+
+#### Testing
+Run these two queries to make sure your optional filtering is working correctly.
+
+This should return all plants in each garden
+```graphql
+query {
+  gardens {
+    title
+    plants {
+      plantType
+      quantity
+    }
+  }
+}
+```
+
+ This should return only basil plants in each garden
+ ```graphql
+query {
+  gardens {
+    title
+    plants(plantType: "basil") {
+      plantType
+      quantity
+    }
+  }
+}
+ ```
+ 
+<details><summary>Answer</summary><p>
+ 
+ __schema.graphqls__
+ ```graphql schema
+type Garden {
+    id: ID!
+    title: String!
+    description: String
+    plants(plantType: String): [Plant]!
+}
+
+type Plant {
+    id: ID!
+    plantType: String!
+    quantity: Int!
+}
+
+type Query {
+    gardens: [Garden]!
+    plants(plantType: String!): [Plant]!
+}
+ ```
+ 
+ __GardenResolver.java__
+ ```java
+package com.jimrennie.graphql.devday.graphql.resolver;
+
+import com.coxautodev.graphql.tools.GraphQLResolver;
+import com.jimrennie.graphql.devday.core.service.PlantService;
+import com.jimrennie.graphql.devday.graphql.api.GardenDto;
+import com.jimrennie.graphql.devday.graphql.api.PlantDto;
+import com.jimrennie.graphql.devday.graphql.assembler.PlantDtoAssembler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+@Component
+public class GardenResolver implements GraphQLResolver<GardenDto> {
+
+	@Autowired
+	private PlantService plantService;
+	@Autowired
+	private PlantDtoAssembler plantDtoAssembler;
+
+	public List<PlantDto> getPlants(GardenDto gardenDto, String plantType) {
+		return Optional.ofNullable(plantType)
+				.map(type -> plantService.findPlantsByGardenIdAndPlantType(gardenDto.getId(), type))
+				.orElseGet(() -> plantService.findPlantsByGardenId(gardenDto.getId()))
+				.stream()
+				.map(plantDtoAssembler::assemble)
+				.collect(Collectors.toList());
+	}
+}
+ ```
+ 
+ </p></details>

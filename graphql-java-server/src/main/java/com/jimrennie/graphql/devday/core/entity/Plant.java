@@ -28,4 +28,7 @@ public class Plant {
 	@Column(name = "QUANTITY", nullable = false)
 	private Integer quantity = 0;
 
+	@Column(name = "GARDEN_ID")
+	private Long gardenId;
+
 }
