@@ -268,11 +268,10 @@ You are querying your gardens root query and you are starting to get frustrated 
 are actually in each garden. You also optionally want to be able to filter by plant type when getting the plants in my gardens.
 
 There are two ways to do this, the smart way and the dumb way. The smart way to do this would be to add a list of plants to
-the GardenDto and do the needed transformations. We are going to do this the dumb way because I don't feel like coming up with a 
-better example to show this.
+the GardenDto and do the needed transformations. We are going to do this the dumb way for learning purposes.
 
 When you need to get a field that isn't immediately available to the entity you are querying, you can create a resolver
-to get the sub resource for you. To do this follow these steps:
+to get the field for you. To do this follow these steps:
 
 1. Create a class that `implements GraphQLResolver<GardenDto>` called `GardenResolver`
 2. Add the `@Component` annotation to the class
