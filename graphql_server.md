@@ -53,8 +53,7 @@ Since `graphql-java-tools` is schema first we will be creating a schema, and the
 3. Create a Root Query Resolver for the gardens query by doing the following
     * Create a class called `QueryResolver` that implements `GraphQLQueryResolver`
     * The class should be annotated with `@Component`
-    * The class should have one method
-        * `getGardens()` which returns a List of GardenDto's from the `GardenService` (You will need to transform it).
+    * The class should have one public method `getGardens()` which returns a List of GardenDto's from the `GardenService` (You will need to transform it).
 
 #### Testing
 * Start your server
