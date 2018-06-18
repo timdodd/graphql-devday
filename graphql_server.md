@@ -30,7 +30,7 @@ This library is very well supported and so things don't get too confusing that i
   * `com.graphql-java:graphiql-spring-boot-starter`
     * A graphical interactive in-browser GraphQL IDE that we can use to query our Garden application.
     
-## Exercise #1 - Root Query
+## Exercise #1 - Garden Root Query
 
 #### Prerequisites
 * Read [GraphQL Schema](https://graphql.org/learn/schema/)
@@ -62,7 +62,7 @@ Since `graphql-java-tools` is schema first we will be creating a schema, and the
 * Go to [http://localhost:8080/graphiql](http://localhost:8080/graphiql) to test your code
   * Alternatively you can enter [http://localhost:8080/graphql](http://localhost:8080/graphql) into your favorite GraphQL
   query tool.
-* Write a query to get all the Gardens back and run it.
+* Write a query to get all the Gardens back and run it to confirm it is working correctly.
 
              
 <details><summary>Answer</summary><p>
@@ -151,3 +151,128 @@ __Response__
 
 </p></details>
 
+## Exercise #2 - Plant Root Query
+
+#### Tasks
+It's great to be able to get all of your gardens, but I want to be able to search for a plant by it's plantType.
+
+Create a Plant Type and a plants query that accepts a plantType (required String) and returns a list of plants in your schema and add the code needed
+on the java side to run the query (The query already exists in the PlantService). The resolver should return the PlantDto, not
+the Plant entity.
+
+#### Testing
+* Restart your server
+  * If it didn't start, check the stacktrace. It is sometimes helpful.
+* Write a query to get all the plants back with a certain plantType. 
+  * Sample data: Basil, Tomato, Parsley
+  
+<details><summary>Answer</summary><p>
+
+__schema.graphqls__
+```graphql
+type Garden {
+    id: ID!
+    title: String!
+    description: String
+}
+
+type Plant {
+    id: ID!
+    plantType: String!
+    quantity: Int!
+}
+
+type Query {
+    gardens: [Garden]!
+    plants(plantType: String!): [Plant]!
+}
+```
+
+__QueryResolver.java__
+```java
+package com.jimrennie.graphql.devday.graphql.resolver;
+
+import com.coxautodev.graphql.tools.GraphQLQueryResolver;
+import com.jimrennie.graphql.devday.core.entity.Garden;
+import com.jimrennie.graphql.devday.core.entity.Plant;
+import com.jimrennie.graphql.devday.core.service.GardenService;
+import com.jimrennie.graphql.devday.core.service.PlantService;
+import com.jimrennie.graphql.devday.graphql.api.GardenDto;
+import com.jimrennie.graphql.devday.graphql.api.PlantDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Component
+public class QueryResolver implements GraphQLQueryResolver {
+
+	@Autowired
+	private GardenService gardenService;
+	@Autowired
+	private PlantService plantService;
+
+	public List<GardenDto> getGardens() {
+		return gardenService.findAllGardens()
+				.stream()
+				.map(this::toGardenDto)
+				.collect(Collectors.toList());
+	}
+
+	public List<PlantDto> getPlants(String plantType) {
+		return plantService.findPlantsByPlantType(plantType)
+				.stream()
+				.map(this::toPlantDto)
+				.collect(Collectors.toList());
+	}
+
+	private GardenDto toGardenDto(Garden garden) {
+		return new GardenDto()
+				.setId(garden.getId())
+				.setTitle(garden.getTitle())
+				.setDescription(garden.getDescription());
+	}
+
+	private PlantDto toPlantDto(Plant plant) {
+		return new PlantDto()
+				.setId(plant.getId())
+				.setPlantType(plant.getPlantType())
+				.setQuantity(plant.getQuantity());
+	}
+
+}
+```
+
+__Query__
+```graphql
+query {
+  plants(plantType: "basil") {
+    id
+    plantType
+    quantity
+  }
+}
+```
+
+__Response__
+```json
+{
+  "data": {
+    "plants": [
+      {
+        "id": "4",
+        "plantType": "Basil",
+        "quantity": 11
+      },
+      {
+        "id": "10",
+        "plantType": "Basil",
+        "quantity": 4
+      }
+    ]
+  }
+}
+```
+
+</p></details>

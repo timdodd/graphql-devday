@@ -4,6 +4,13 @@ type Garden {
     description: String
 }
 
-type query {
-    gardens(): [Garden]!
+type Plant {
+    id: ID!
+    plantType: String!
+    quantity: Int!
+}
+
+type Query {
+    gardens: [Garden]!
+    plants(plantType: String!): [Plant]!
 }

@@ -16,7 +16,7 @@ public class GardenService {
 	@Autowired
 	private GardenRepository gardenRepository;
 
-	public List<Garden> getGardens() {
+	public List<Garden> findAllGardens() {
 		return gardenRepository.findAll();
 	}
 

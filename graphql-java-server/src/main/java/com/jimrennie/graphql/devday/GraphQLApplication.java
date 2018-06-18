@@ -39,6 +39,9 @@ public class GraphQLApplication {
 								.setPlantType("Dandelion")
 								.setQuantity(100),
 						new Plant()
+								.setPlantType("Basil")
+								.setQuantity(11),
+						new Plant()
 								.setPlantType("Tomato")
 								.setQuantity(8)))));
 

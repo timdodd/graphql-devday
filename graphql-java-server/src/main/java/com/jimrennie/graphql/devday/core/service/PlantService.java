@@ -14,8 +14,12 @@ public class PlantService {
 	@Autowired
 	private PlantRepository plantRepository;
 
-	public List<Plant> getPlants() {
+	public List<Plant> findAllPlants() {
 		return plantRepository.findAll();
+	}
+
+	public List<Plant> findPlantsByPlantType(String plantType) {
+		return plantRepository.findAllByPlantTypeIgnoreCase(plantType);
 	}
 
 	public Optional<Plant> getPlantById(Long id) {
