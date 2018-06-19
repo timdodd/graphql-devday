@@ -381,3 +381,80 @@ The easiest way to perform this madness is to:
 2. Add the `@Component` annotation to the class,
 3. Add methods `addPlant` and `changePlant` that accepts a `PantDto`.
 4. Use the PlantService to save the plant.
+
+<details><summary>Answer</summary><p>
+
+__schema.graphqls__
+```graphql
+type Garden {
+    id: ID!
+    title: String!
+    description: String
+}
+
+type Plant {
+    id: ID!
+    plantType: String!
+    quantity: Int!
+}
+
+type Query {
+    gardens: [Garden]!
+    plants(plantType: String!): [Plant]!
+}
+
+type Mutation {
+    addPlant(plant: Plant!): Void
+}
+```
+
+__GardenMutationResolver.java__
+```java
+package com.jimrennie.graphql.devday.graphql.resolver.mutation;
+
+import com.coxautodev.graphql.tools.GraphQLMutationResolver;
+import com.jimrennie.graphql.devday.core.service.PlantService;
+import com.jimrennie.graphql.devday.graphql.api.PlantDto;
+import com.jimrennie.graphql.devday.graphql.assembler.PlantDtoAssembler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+public class GardenMutationResolver implements GraphQLMutationResolver {
+
+	@Autowired
+	private PlantService plantService;
+	@Autowired
+	private PlantDtoAssembler plantDtoAssembler;
+
+	public void addPlant(PlantDto plant) {
+		plantService.savePlant(plantDtoAssembler.disAssemble(plant));
+	}
+
+	public void changePlant(PlantDto plant) {
+		plantService.savePlant(plantDtoAssembler.disAssemble(plant));
+	}
+}
+```
+
+__Query__
+```graphql
+mutation {
+  addPlant(input: {
+    plantType: "RadioactivePotato"
+    quantity: 100
+  }) {
+    plant {
+      plantType
+      quantity
+    }
+  }
+}
+```
+
+__Response__
+```json
+
+```
+
+</p></details>
