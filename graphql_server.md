@@ -369,3 +369,15 @@ public class GardenResolver implements GraphQLResolver<GardenDto> {
  ```
  
  </p></details>
+ 
+ ## Exercise #4 - Modifying (Mutating) a Plant
+ 
+ #### Tasks
+A nuclear winter has settled in... Plant mutations are abundant... it's time to add new radioactive plants or change your plants characteristics in light of this dystopian legumic future.
+
+The easiest way to perform this madness is to:
+
+1. Create a class that `implements GraphQLMutationResolver` called `GardenMutationResolver`
+2. Add the `@Component` annotation to the class,
+3. Add methods `addPlant` and `changePlant` that accepts a `PantDto`.
+4. Use the PlantService to save the plant.
