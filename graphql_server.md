@@ -379,7 +379,7 @@ The easiest way to perform this madness is to:
 
 1. Create a class that `implements GraphQLMutationResolver` called `MutationResolver`
 2. Add the `@Component` annotation to the class,
-3. Add methods `addPlant` and `changePlant` that accepts a `PantDto`.
+3. Add methods `addPlant` that accepts a plantType and quantity.
 4. Use the PlantService to save the plant.
 
 <details><summary>Answer</summary><p>
@@ -404,12 +404,22 @@ type Query {
 }
 
 type Mutation {
-    addPlant(plant: Plant!): Void
+    addPlant(plantType: String!, quantity: Int): Plant!
 }
 ```
 
 __MutationResolver.java__
 ```java
+package com.jimrennie.graphql.devday.graphql.resolver;
+
+import com.coxautodev.graphql.tools.GraphQLMutationResolver;
+import com.jimrennie.graphql.devday.core.entity.Plant;
+import com.jimrennie.graphql.devday.core.service.PlantService;
+import com.jimrennie.graphql.devday.graphql.api.PlantDto;
+import com.jimrennie.graphql.devday.graphql.assembler.PlantDtoAssembler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 @Component
 public class MutationResolver implements GraphQLMutationResolver {
 
@@ -418,12 +428,8 @@ public class MutationResolver implements GraphQLMutationResolver {
 	@Autowired
 	private PlantDtoAssembler plantDtoAssembler;
 
-	public void addPlant(PlantDto plant) {
-		plantService.savePlant(plantDtoAssembler.disAssemble(plant));
-	}
-
-	public void changePlant(PlantDto plant) {
-		plantService.savePlant(plantDtoAssembler.disAssemble(plant));
+	public PlantDto addPlant(String plantType, Integer quantity) {
+		return plantDtoAssembler.assemble(plantService.savePlant(new Plant().setPlantType(plantType).setQuantity(quantity)));
 	}
 }
 ```
@@ -431,21 +437,26 @@ public class MutationResolver implements GraphQLMutationResolver {
 __Query__
 ```graphql
 mutation {
-  addPlant(input: {
+  addPlant(
     plantType: "RadioactivePotato"
     quantity: 100
-  }) {
-    plant {
+  ) {
       plantType
-      quantity
-    }
+      quantity 
   }
 }
 ```
 
 __Response__
 ```json
-
+{
+  "data": {
+    "addPlant": {
+      "plantType": "RadioactivePotato",
+      "quantity": 100
+    }
+  }
+}
 ```
 
 </p></details>
