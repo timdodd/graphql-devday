@@ -377,7 +377,7 @@ A nuclear winter has settled in... Plant mutations are abundant... it's time to 
 
 The easiest way to perform this madness is to:
 
-1. Create a class that `implements GraphQLMutationResolver` called `GardenMutationResolver`
+1. Create a class that `implements GraphQLMutationResolver` called `MutationResolver`
 2. Add the `@Component` annotation to the class,
 3. Add methods `addPlant` and `changePlant` that accepts a `PantDto`.
 4. Use the PlantService to save the plant.
@@ -408,19 +408,10 @@ type Mutation {
 }
 ```
 
-__GardenMutationResolver.java__
+__MutationResolver.java__
 ```java
-package com.jimrennie.graphql.devday.graphql.resolver.mutation;
-
-import com.coxautodev.graphql.tools.GraphQLMutationResolver;
-import com.jimrennie.graphql.devday.core.service.PlantService;
-import com.jimrennie.graphql.devday.graphql.api.PlantDto;
-import com.jimrennie.graphql.devday.graphql.assembler.PlantDtoAssembler;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 @Component
-public class GardenMutationResolver implements GraphQLMutationResolver {
+public class MutationResolver implements GraphQLMutationResolver {
 
 	@Autowired
 	private PlantService plantService;
