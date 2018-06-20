@@ -471,15 +471,14 @@ How do we leverage GraphQL to manage performance concerns across the graph - wel
 If a node that has a high performance cost (or multiple nodes)... and perhaps this node is traversed multiple times with the same key (N+1) there are ways to mitigate a performance hit. Facebook provides a library called "Dataloader" to work with graphql-js to help out.
 https://github.com/facebook/dataloader
 
-Fortunately There is also a graphql-java port of this library.
+Fortunately There is also a graphql-java port of this library. It also provides convenient utility for gathering statistics on the cache hits for the batching of calls.
 https://github.com/graphql-java/java-dataloader
 
 How are we going to speed up the multiple calls to the Zombie Service?
 
-1. Create a class that `implements GraphQLMutationResolver` called `MutationResolver`
-2. Add the `@Component` annotation to the class,
-3. Add methods `addPlant` that accepts a plantType and quantity.
-4. Use the PlantService to save the plant.
+1. Reference the above link to add a BatchLoader to the resolver.
+2. Create a dataloader with the batchloader.
+3. Add some statistics to the call to check to see if you are hitting the cache.
 
 <details><summary>Answer</summary><p>
 
