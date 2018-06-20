@@ -2,6 +2,8 @@ package com.jimrennie.graphql.devday.core.service;
 
 import com.jimrennie.graphql.devday.core.entity.Plant;
 import com.jimrennie.graphql.devday.core.repository.PlantRepository;
+import com.jimrennie.graphql.devday.graphql.api.PlantDto;
+import graphql.execution.batched.Batched;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,4 +43,5 @@ public class PlantService {
 	public void deletePlant(Long id) {
 		plantRepository.deleteById(id);
 	}
+
 }
