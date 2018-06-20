@@ -31,6 +31,7 @@ public class ZombieService {
 			log.info("Aaaaaaargggggghhhh!!!!");
 		} catch (InterruptedException e) {
 			e.printStackTrace();
+			Thread.interrupted(); // clear interrupted status 
 		}
 		return zombieRepository.findZombiesByGardenId(gardenId);
 	}
