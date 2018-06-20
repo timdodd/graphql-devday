@@ -24,7 +24,7 @@ public class Garden {
 	@Column(name = "TITLE", nullable = false)
 	private String title;
 
-	@Column(name = "DESCRIPTION")
+	@Column(name = "DESCRIPTION", length = 1000)
 	private String description;
 
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -32,9 +32,21 @@ public class Garden {
 	@Setter(AccessLevel.NONE)
 	private List<Plant> plants = new ArrayList<>();
 
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "GARDEN_ID", referencedColumnName = "ID")
+	@Setter(AccessLevel.NONE)
+	private List<Zombie> zombies = new ArrayList<>();
+
+
 	@Transient
 	public Garden addPlants(List<Plant> plants) {
 		this.plants.addAll(plants);
+		return this;
+	}
+
+	@Transient
+	public Garden addZombies(List<Zombie> zombies) {
+		this.zombies.addAll(zombies);
 		return this;
 	}
 }

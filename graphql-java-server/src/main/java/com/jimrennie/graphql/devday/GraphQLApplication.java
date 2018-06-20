@@ -2,6 +2,7 @@ package com.jimrennie.graphql.devday;
 
 import com.jimrennie.graphql.devday.core.entity.Garden;
 import com.jimrennie.graphql.devday.core.entity.Plant;
+import com.jimrennie.graphql.devday.core.entity.Zombie;
 import com.jimrennie.graphql.devday.core.service.GardenService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,22 @@ public class GraphQLApplication {
 								.setQuantity(11),
 						new Plant()
 								.setPlantType("Tomato")
-								.setQuantity(8)))));
+								.setQuantity(8)))
+				.addZombies(asList(
+						new Zombie()
+								.setZombieType("Classic Stumble")
+								.setHitPoints(10),
+						new Zombie()
+								.setZombieType("Fast and Weak")
+								.setHitPoints(2),
+						new Zombie()
+								.setZombieType("Mummy")
+								.setHitPoints(15),
+						new Zombie()
+								.setZombieType("Michael Jackson Zombie")
+								.setHitPoints(15),
+						new Zombie()
+								.setZombieType("Evil Dead Zombie")))));
 
 		log.info("Garden [{}]", gardenService.saveGarden(new Garden()
 				.setTitle("Herb Garden")
@@ -63,7 +79,52 @@ public class GraphQLApplication {
 								.setQuantity(4),
 						new Plant()
 								.setPlantType("Dill")
-								.setQuantity(2)))));
+								.setQuantity(2)))
+				.addZombies(asList(
+						new Zombie()
+								.setZombieType("Classic Stumble")
+								.setHitPoints(10),
+						new Zombie()
+								.setZombieType("Fast and Weak")
+								.setHitPoints(2),
+						new Zombie()
+								.setZombieType("Mummy")
+								.setHitPoints(15),
+						new Zombie()
+								.setZombieType("Michael Jackson Zombie")
+								.setHitPoints(15),
+						new Zombie()
+								.setZombieType("Evil Dead Zombie")
+								.setHitPoints(30)))));
+
+		log.info("Garden [{}]", gardenService.saveGarden(new Garden()
+				.setTitle("Zombie Patch")
+				.setDescription("Darkness falls across the land " +
+						"The midnight hour is close at hand " +
+						"Creatures crawl in search of blood " +
+						"To terrorize y'all's neighborhood " +
+						"And whosoever shall be found " +
+						"Without the soul for getting down " +
+						"Must stand and face the hounds of hell " +
+						"And rot inside a corpse's shell")
+				.addZombies(asList(
+						new Zombie()
+								.setZombieType("Classic Stumble")
+								.setHitPoints(10),
+						new Zombie()
+								.setZombieType("Fast and Weak")
+								.setHitPoints(2),
+						new Zombie()
+								.setZombieType("Mummy")
+								.setHitPoints(15),
+						new Zombie()
+								.setZombieType("Michael Jackson Zombie")
+								.setHitPoints(15),
+						new Zombie()
+								.setZombieType("Evil Dead Zombie")
+								.setHitPoints(30)))));
+
+
 
 		log.info("--- Creating Seed Data Complete ---");
 	}

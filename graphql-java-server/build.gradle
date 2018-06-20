@@ -33,6 +33,7 @@ dependencies {
     // GraphQL Dependencies
     compile('com.graphql-java:graphql-spring-boot-starter:4.2.0')
     compile('com.graphql-java:graphql-java-tools:5.1.0')
+    compile('com.graphql-java:java-dataloader:2.0.2')
     compile('com.graphql-java:graphiql-spring-boot-starter:4.2.0')
 
     compileOnly('org.projectlombok:lombok')
