@@ -369,3 +369,94 @@ public class GardenResolver implements GraphQLResolver<GardenDto> {
  ```
  
  </p></details>
+ 
+ ## Exercise #4 - Modifying (Mutating) a Plant
+ 
+ #### Tasks
+A nuclear winter has settled in... Plant mutations are abundant... it's time to add new radioactive plants or change your plants characteristics in light of this dystopian legumic future.
+
+The easiest way to perform this madness is to:
+
+1. Create a class that `implements GraphQLMutationResolver` called `MutationResolver`
+2. Add the `@Component` annotation to the class,
+3. Add methods `addPlant` that accepts a plantType and quantity.
+4. Use the PlantService to save the plant.
+
+<details><summary>Answer</summary><p>
+
+__schema.graphqls__
+```graphql
+type Garden {
+    id: ID!
+    title: String!
+    description: String
+}
+
+type Plant {
+    id: ID!
+    plantType: String!
+    quantity: Int!
+}
+
+type Query {
+    gardens: [Garden]!
+    plants(plantType: String!): [Plant]!
+}
+
+type Mutation {
+    addPlant(plantType: String!, quantity: Int): Plant!
+}
+```
+
+__MutationResolver.java__
+```java
+package com.jimrennie.graphql.devday.graphql.resolver;
+
+import com.coxautodev.graphql.tools.GraphQLMutationResolver;
+import com.jimrennie.graphql.devday.core.entity.Plant;
+import com.jimrennie.graphql.devday.core.service.PlantService;
+import com.jimrennie.graphql.devday.graphql.api.PlantDto;
+import com.jimrennie.graphql.devday.graphql.assembler.PlantDtoAssembler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+public class MutationResolver implements GraphQLMutationResolver {
+
+	@Autowired
+	private PlantService plantService;
+	@Autowired
+	private PlantDtoAssembler plantDtoAssembler;
+
+	public PlantDto addPlant(String plantType, Integer quantity) {
+		return plantDtoAssembler.assemble(plantService.savePlant(new Plant().setPlantType(plantType).setQuantity(quantity)));
+	}
+}
+```
+
+__Query__
+```graphql
+mutation {
+  addPlant(
+    plantType: "RadioactivePotato"
+    quantity: 100
+  ) {
+      plantType
+      quantity 
+  }
+}
+```
+
+__Response__
+```json
+{
+  "data": {
+    "addPlant": {
+      "plantType": "RadioactivePotato",
+      "quantity": 100
+    }
+  }
+}
+```
+
+</p></details>
