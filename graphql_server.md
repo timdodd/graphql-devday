@@ -464,7 +464,7 @@ __Response__
 ## Exercise #5 - Zombies!!!
  
  #### Tasks
-The skies boil grey and blue... lightning rips across the sky. Moaning drifts across the cracked earth from beyond the horizon. Slow lumbering forms are seen in the distance... so slow... 
+The skies boil grey and blue... lightning rips the broken earth. Moaning drifts from beyond the horizon. Slow lumbering forms are seen in the distance... so slow... 
 
 How do we leverage GraphQL to manage performance concerns across the graph - well, we have two ways to do this. The first is simply by the beauty of a graph - if you don't reference the node in the query - you will not traverse the graph to fetch it.
 
