@@ -1,0 +1,31 @@
+type Garden {
+    id: ID!
+    title: String!
+    description: String
+    plants(plantType: String): [Plant]!
+    zombies(zombieType: String): [Zombie]!
+}
+
+type Plant {
+    id: ID!
+    plantType: String!
+    quantity: Int!
+}
+
+type Zombie {
+    id: ID!
+    zombieType: String!
+    hitPoints: Int!
+}
+
+type Query {
+    gardens: [Garden]!
+    plants(plantType: String!): [Plant]!
+    zombie(zombieType: String!): [Zombie]!
+}
+
+type Mutation {
+    addPlant(gardenId: ID!, plantType: String!, quantity: Int): Plant!
+    incrementPlantQuantity(plantId: ID!): Plant!
+    plantHitZombie(zombieId: ID!, hitPoints: Int): Zombie!
+}

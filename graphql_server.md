@@ -30,6 +30,8 @@ any good programmer, you decide the best way to deal with this problem is to wri
 This library is very well supported and so things don't get too confusing that is all we are going to use.
   * `com.graphql-java:graphiql-spring-boot-starter`
     * A graphical interactive in-browser GraphQL IDE that we can use to query our Garden application.
+* If you find yourself stuck and the answers aren't helping, check out the [graphql-java-server-answer](graphql-angular-answer) directory
+for a complete version of the server.    
     
 ## Exercise #1 - Garden Root Query
 
