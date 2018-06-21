@@ -475,13 +475,9 @@ The skies boil grey and blue... lightning rips the broken earth. Moaning drifts 
 
 How do we leverage GraphQL to manage performance concerns across the graph - well, we have two ways to do this. The first is simply by the beauty of a graph - if you don't reference the node in the query - you will not traverse the graph to fetch it.
 
-
-
 How are we going to speed up the multiple calls to the Zombie Service?
 
-1. Reference the above link to add a BatchLoader to the resolver.
-2. Create a dataloader with the batchloader.
-3. Add some statistics to the call to check to see if you are hitting the cache.
+1. Use a CompletableFuture.supplyAsync() within the resolver
 
 <details><summary>Answer</summary><p>
 
