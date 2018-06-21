@@ -475,11 +475,7 @@ The skies boil grey and blue... lightning rips the broken earth. Moaning drifts 
 
 How do we leverage GraphQL to manage performance concerns across the graph - well, we have two ways to do this. The first is simply by the beauty of a graph - if you don't reference the node in the query - you will not traverse the graph to fetch it.
 
-If a node that has a high performance cost (or multiple nodes)... and perhaps this node is traversed multiple times with the same key (N+1) there are ways to mitigate a performance hit. Facebook provides a library called "Dataloader" to work with graphql-js to help out.
-[https://github.com/facebook/dataloader](https://github.com/facebook/dataloader)
 
-Fortunately There is also a graphql-java port of this library. It also provides convenient utility for gathering statistics on the cache hits for the batching of calls.
-[https://github.com/graphql-java/java-dataloader](https://github.com/graphql-java/java-dataloader)
 
 How are we going to speed up the multiple calls to the Zombie Service?
 
@@ -526,6 +522,15 @@ __GardenResolver.java__
 ```java
 package com.jimrennie.graphql.devday.graphql.resolver;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.coxautodev.graphql.tools.GraphQLResolver;
 import com.jimrennie.graphql.devday.core.service.PlantService;
 import com.jimrennie.graphql.devday.core.service.ZombieService;
@@ -534,23 +539,10 @@ import com.jimrennie.graphql.devday.graphql.api.PlantDto;
 import com.jimrennie.graphql.devday.graphql.api.ZombieDto;
 import com.jimrennie.graphql.devday.graphql.assembler.PlantDtoAssembler;
 import com.jimrennie.graphql.devday.graphql.assembler.ZombieDtoAssembler;
-import lombok.Getter;
-import lombok.Setter;
+
+import lombok.Data;
 import lombok.experimental.Accessors;
-import lombok.extern.slf4j.Slf4j;
-import org.dataloader.BatchLoader;
-import org.dataloader.DataLoader;
-import org.dataloader.stats.Statistics;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionStage;
-import java.util.stream.Collectors;
-
-@Slf4j
 @Component
 public class GardenResolver implements GraphQLResolver<GardenDto> {
 
@@ -572,47 +564,29 @@ public class GardenResolver implements GraphQLResolver<GardenDto> {
 				.collect(Collectors.toList());
 	}
 
-	public List<ZombieDto> getZombies(GardenDto gardenDto, String zombieType) {
-
-		BatchLoader<GardenDtoType, ZombieDto> batchLoader = new BatchLoader<GardenDtoType, ZombieDto>() {
-			@Override
-			public CompletionStage<List<ZombieDto>> load(List<GardenDtoType> gardenDtoType) {
-				return CompletableFuture.supplyAsync(() -> {
-					return gardenDtoType.stream()
-							.flatMap(gdt -> {
-								return Optional.ofNullable(gdt.getType())
-										.map(type -> zombieService.findZombiesByGardenIdAndZombieType(gdt.garden.getId(), gdt.getType()))
-										.orElseGet(() -> zombieService.findZombiesByGardenId(gdt.garden.getId()))
-										.stream()
-										.map(zombieDtoAssembler::assemble);
-							})
-							.collect(Collectors.toList());
-				});
-			}
-		};
-		DataLoader<GardenDtoType, ZombieDto> zombieLoder = new DataLoader<GardenDtoType, ZombieDto>(batchLoader);
-		zombieLoder.load(new GardenDtoType().setGarden(gardenDto).setType(zombieType));
-		Statistics statistics = zombieLoder.getStatistics();
-		log.info("zombie loader batch invoke count: " + statistics.getBatchInvokeCount());
-		log.info("zombie loader batch load count: " + statistics.getBatchLoadCount());
-		log.info("zombie loader batch load exception count: " + statistics.getBatchLoadExceptionCount());
-		log.info("zombie loader batch load exception ratio: " + statistics.getBatchLoadExceptionRatio());
-		log.info("zombie loader batch load ratio: " + statistics.getBatchLoadRatio());
-		log.info("zombie loader cache hit count: " + statistics.getCacheHitCount());
-		log.info("zombie loader cache miss count: " + statistics.getCacheMissCount());
-		log.info("zombie loader load count: " + statistics.getLoadCount());
-		log.info("zombie loader load error count: " + statistics.getLoadErrorCount());
-		log.info("zombie loader load error ratio: " + statistics.getLoadErrorRatio());
-		return zombieLoder.dispatchAndJoin();
+	public CompletionStage<List<ZombieDto>> getZombies(GardenDto gardenDto, String zombieType) {
+		return CompletableFuture.supplyAsync(()->findZombies(new GardenDtoType().setGarden(gardenDto).setType(zombieType)));
+	}
+	
+	private List<ZombieDto> findZombies(GardenDtoType gardenDtoType) {
+		final long startTime = System.currentTimeMillis();
+		return Optional.ofNullable(gardenDtoType.getType())
+				.map(type -> zombieService.findZombiesByGardenIdAndZombieType(gardenDtoType.garden.getId(), type))
+				.orElseGet(() -> zombieService.findZombiesByGardenId(gardenDtoType.garden.getId()))
+				.stream()
+				.peek(t -> System.out.println("Time taken for = "+gardenDtoType+" was - "+(System.currentTimeMillis()-startTime)))
+				.map(zombieDtoAssembler::assemble)
+				.collect(Collectors.toList());
 	}
 
-	@Getter
-	@Setter
+	@Data
 	@Accessors(chain = true)
 	class GardenDtoType {
 		GardenDto garden;
 		String type;
 	}
+}
+
 ```
 
 __Query__
@@ -635,8 +609,20 @@ query {
 ```
 
 __Response__
-```json
-
-```
+The response should call asynchronously across the 
 
 </p></details>
+
+## Exercise #7 - It's a Cemetary Here!!!
+ 
+ #### Tasks
+A few zombies here and there is manageable... what if an entire colony of the same type of Zombies are needed for different reasons. Does it make sense to fetch them one at a time? What if it's the same Zombie reviving itself over and over again.
+
+If a node that has a high performance cost (or multiple nodes)... and perhaps this node is traversed multiple times with the same key (N+1) there are ways to mitigate a performance hit through batching/cacheing. Facebook provides a library called "Dataloader" to work with graphql-js to help out.
+[https://github.com/facebook/dataloader](https://github.com/facebook/dataloader)
+
+Fortunately There is also a graphql-java port of this library. It also provides convenient utility for gathering statistics on the cache hits for the batching of calls.
+[https://github.com/graphql-java/java-dataloader](https://github.com/graphql-java/java-dataloader)
+
+This is an advanced question (Which means I never got it implemented properly... Let's see if we anyone can implement it!
+
