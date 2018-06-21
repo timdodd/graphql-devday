@@ -25,6 +25,6 @@ type Query {
 }
 
 type Mutation {
-    addPlant(plantType: String!, quantity: Int): Plant!
+    addPlant(gardenId: ID!, plantType: String!, quantity: Int): Plant!
     plantHitZombie(zombieId: ID!, hitPoints: Int): Zombie!
 }
