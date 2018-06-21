@@ -37,6 +37,7 @@ the tables.
 
 ## Exercise #2 - ADD ALL THE PLANTS!
 ![Add all the meme](X-All-The-Y.jpg)
+
 * Read the [Mutations](https://www.apollographql.com/docs/angular/basics/mutations.html) section to understand how to use
 mutations with the Apollo client.
 * Write a mutation in the `PlantService#createPlant` function that creates a plant and returns the plant to the caller as
@@ -48,6 +49,7 @@ will not be added to the garden list, so use [http://localhost:8080/graphiql](yo
 
 ## Exercise #3 - CACHE ALL THE THINGS!
 ![Add all the meme](X-All-The-Y.jpg)
+
 Apollo uses an in memory cache to store the results from all of the queries that get run. The idea is that you can then update
 the cache when you run a mutation. 
 
@@ -61,6 +63,7 @@ You should now be able to add a plant in the UI and the plant will be automatica
 
 ## Exercise #4 - INCREMENT ALL THE THINGS!
 ![Add all the meme](X-All-The-Y.jpg)
+
 There is a plus button next to our plant quantities that should increment the number of plants we have. Write a mutation to 
 increment the plant quantity in the `PlantService#incrementPlantQuantity` function.
 * Note that you do not need to write an update function in this mutation. I don't have a great understanding of how the Apollo
