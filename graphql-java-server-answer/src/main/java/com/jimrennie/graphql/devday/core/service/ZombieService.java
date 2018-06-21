@@ -34,7 +34,7 @@ public class ZombieService {
 			log.info("Aaaaaaargggggghhhh!!!!");
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-			Thread.interrupted(); // clear interrupted status 
+			Thread.interrupted(); // clear interrupted status
 		}
 		return zombieRepository.findZombiesByGardenId(gardenId);
 	}
@@ -62,7 +62,6 @@ public class ZombieService {
 			return null;
 		}
 		zombie.setHitPoints(zombie.getHitPoints() - hitPoints);
-		zombieRepository.save(zombie);
-		return zombie;
+		return zombieRepository.save(zombie);
 	}
 }
