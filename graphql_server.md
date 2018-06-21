@@ -716,8 +716,9 @@ mutation {
       quantity 
   }
 }
-
 ```
+
+</p></details>
 
 ## Exercise #8 - It's a Cemetary Here!!!
  
