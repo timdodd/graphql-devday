@@ -430,8 +430,7 @@ __Response__
 
 #### Tasks
 An AMAZING enhancement to the query you made in **Exercise #6** would be if you could view the repositories that
-user has. You only want the repositories sometimes though. Add an optional parameter to your user look up query that is defaulted
-to false that returns the last 10 user repositories name and description if true.
+user has. You only want the repositories sometimes though. Add a required parameter to your user look up query that returns the last 10 user repositories name and description if true.
 
 <details><summary>Hint [Exercise 6 Answer]</summary><p>
 
@@ -491,7 +490,7 @@ repositories(last: 10) @include(if: $withRepositories) {
 
 __Query__
 ```graphql
-query userLookup($login: String!, $withRepositories: Boolean = false) {
+query userLookup($login: String!, $withRepositories: Boolean!) {
   user(login: $login) {
     name
     bio
