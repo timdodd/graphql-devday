@@ -6,11 +6,13 @@ import com.jimrennie.graphql.devday.graphql.api.PlantDto;
 import graphql.execution.batched.Batched;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class PlantService {
 
 	@Autowired
@@ -32,8 +34,8 @@ public class PlantService {
 		return plantRepository.findPlantsByGardenIdAndPlantTypeIgnoreCase(gardenId, plantType);
 	}
 
-	public Optional<Plant> getPlantById(Long id) {
-		return plantRepository.findById(id);
+	public Plant getPlantById(Long id) {
+		return plantRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Plant id [" + id + "] not found"));
 	}
 
 	public Plant savePlant(Plant plant) {
@@ -42,6 +44,10 @@ public class PlantService {
 
 	public void deletePlant(Long id) {
 		plantRepository.deleteById(id);
+	}
+
+	public void incrementPlantQuantity(Long id) {
+		plantRepository.incrementQuantity(id);
 	}
 
 }

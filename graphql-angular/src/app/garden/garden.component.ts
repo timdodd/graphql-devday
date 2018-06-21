@@ -14,6 +14,7 @@ export class GardenComponent implements OnInit {
   @Input()
   garden: Garden;
 
+  saving = false;
   showAddPlant = false;
   addPlantForm: FormGroup;
 
@@ -29,14 +30,19 @@ export class GardenComponent implements OnInit {
   }
 
   isAddPlantButtonDisabled(): boolean {
-    return this.addPlantForm.invalid;
+    return this.addPlantForm.invalid || this.saving;
   }
 
   addPlant() {
-    console.log(this.addPlantForm.get('plantType').value);
-    this.plantService.createPlant(this.garden.id, this.addPlantForm.get('plantType').value);
-    this.showAddPlant = false;
-    this.addPlantForm.reset();
+    this.saving = true;
+    this.plantService.createPlant(this.garden.id, this.addPlantForm.get('plantType').value).subscribe(() => {
+      this.showAddPlant = false;
+      this.addPlantForm.reset();
+      this.saving = false;
+    });
   }
 
+  incrementPlantQuantity(plantId: number) {
+    this.plantService.incrementPlantQuantity(plantId).subscribe();
+  }
 }

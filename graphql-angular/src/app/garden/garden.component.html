@@ -3,22 +3,20 @@
     <h3>{{ garden.title }}</h3>
     <small class="text-secondary">{{ garden.description }}</small>
   </div>
-  <table class="table table-dark card-body m-0 p-0" *ngIf="garden.plants.length">
+  <table class="table table-dark card-body m-0 p-0" *ngIf="garden.plants.length || showAddPlant">
     <thead>
     <tr>
       <th scope="col">Plant Type</th>
       <th scope="col" class="text-right">Plant Quantity</th>
-      <th scope="col"></th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let plant of garden.plants">
       <td>{{ plant.plantType }}</td>
-      <td class="text-right">{{ plant.quantity }}</td>
-      <td></td>
+      <td class="text-right">{{ plant.quantity }} <button type="button" class="btn btn-sm btn-success ml-3" (click)="incrementPlantQuantity(plant.id)">+</button></td>
     </tr>
     <tr *ngIf="showAddPlant">
-      <td colspan="3">
+      <td colspan="2">
         <form [formGroup]="addPlantForm" (ngSubmit)="addPlant()" novalidate>
         <div class="form-group my-0 py-0">
           <div class="input-group">
@@ -36,6 +34,6 @@
     </tbody>
   </table>
   <div class="card-footer">
-    <button type="button" class="btn btn-sm btn-primary float-right" (click)="showAddPlant = !showAddPlant">Add Plant</button>
+    <button type="button" class="btn btn-sm btn-primary" (click)="showAddPlant = !showAddPlant">Add Plant</button>
   </div>
 </div>

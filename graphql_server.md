@@ -404,7 +404,7 @@ type Query {
 }
 
 type Mutation {
-    addPlant(plantType: String!, quantity: Int): Plant!
+    addPlant(gardenId: ID!, plantType: String!, quantity: Int): Plant!
 }
 ```
 
@@ -428,8 +428,8 @@ public class MutationResolver implements GraphQLMutationResolver {
 	@Autowired
 	private PlantDtoAssembler plantDtoAssembler;
 
-	public PlantDto addPlant(String plantType, Integer quantity) {
-		return plantDtoAssembler.assemble(plantService.savePlant(new Plant().setPlantType(plantType).setQuantity(quantity)));
+	public PlantDto addPlant(Long gardenId, String plantType, Integer quantity) {
+		return plantDtoAssembler.assemble(plantService.savePlant(new Plant().setPlantType(plantType).setQuantity(quantity).setGardenId(gardenId)));
 	}
 }
 ```
@@ -438,6 +438,7 @@ __Query__
 ```graphql
 mutation {
   addPlant(
+    gardenId: 1
     plantType: "RadioactivePotato"
     quantity: 100
   ) {
@@ -461,7 +462,11 @@ __Response__
 
 </p></details>
 
-## Exercise #5 - Zombies!!!
+## Exercise #5 - We need more plants!
+As one of the last gardens in the area, people are gravitating to your gardens. You need to plant more ASAP! Add an 
+`incrementPlantQuantity` mutation that accepts a `plantId` and returns the Plant before it's too late.
+
+## Exercise #6 - Zombies!!!
  
  #### Tasks
 The skies boil grey and blue... lightning rips the broken earth. Moaning drifts from beyond the horizon. Slow lumbering forms are seen in the distance... so slow... 
@@ -469,10 +474,10 @@ The skies boil grey and blue... lightning rips the broken earth. Moaning drifts 
 How do we leverage GraphQL to manage performance concerns across the graph - well, we have two ways to do this. The first is simply by the beauty of a graph - if you don't reference the node in the query - you will not traverse the graph to fetch it.
 
 If a node that has a high performance cost (or multiple nodes)... and perhaps this node is traversed multiple times with the same key (N+1) there are ways to mitigate a performance hit. Facebook provides a library called "Dataloader" to work with graphql-js to help out.
-https://github.com/facebook/dataloader
+[https://github.com/facebook/dataloader](https://github.com/facebook/dataloader)
 
 Fortunately There is also a graphql-java port of this library. It also provides convenient utility for gathering statistics on the cache hits for the batching of calls.
-https://github.com/graphql-java/java-dataloader
+[https://github.com/graphql-java/java-dataloader](https://github.com/graphql-java/java-dataloader)
 
 How are we going to speed up the multiple calls to the Zombie Service?
 

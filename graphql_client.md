@@ -34,4 +34,36 @@ how to use the Apollo client.
 To test it out you should be able to hit [http://localhost:4200](http://localhost:4200) and see garden data populated in
 the tables.
 
+## Exercise #2 - ADD ALL THE PLANTS!
+![Add all the meme](X-All-The-Y.jpg)
+* Read the [Mutations](https://www.apollographql.com/docs/angular/basics/mutations.html) section to understand how to use
+mutations with the Apollo client.
+* Write a mutation in the `PlantService#createPlant` function that creates a plant and returns the plant to the caller as
+an Observable.
 
+#### Test it out
+To test it out you should be able to hit [http://localhost:4200](http://localhost:4200) and add a plant. The plant
+will not be added to the garden list, so use [http://localhost:8080/graphiql](your graphiql) to see if the plant was added. 
+
+## Exercise #3 - CACHE ALL THE THINGS!
+![Add all the meme](X-All-The-Y.jpg)
+Apollo uses an in memory cache to store the results from all of the queries that get run. The idea is that you can then update
+the cache when you run a mutation. 
+
+The goal of this exercise is to update the getGardens() query result cache without rerunning any queries
+* Read the [Apollo Cache](https://www.apollographql.com/docs/angular/basics/caching.html) section and the [Direct cache access](https://www.apollographql.com/docs/angular/features/caching.html)
+section to understand what you are doing.
+* In the `PlantService#createPlant` function add an update function to the mutation to update the cache of the `getGardens()` query.
+
+#### Test it out
+You should now be able to add a plant in the UI and the plant will be automatically added to the garden. 
+
+## Exercise #4 - INCREMENT ALL THE THINGS!
+![Add all the meme](X-All-The-Y.jpg)
+There is a plus button next to our plant quantities that should increment the number of plants we have. Write a mutation to 
+increment the plant quantity in the `PlantService#incrementPlantQuantity` function.
+* Note that you do not need to write an update function in this mutation. I don't have a great understanding of how the Apollo
+caching works, it is smart enough to update the cache when changing an entity, but not when adding it.
+
+#### Test it out
+Hitting the plus button should increment the number of plants you have.
