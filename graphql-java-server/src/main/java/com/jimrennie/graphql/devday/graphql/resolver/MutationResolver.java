@@ -23,8 +23,8 @@ public class MutationResolver implements GraphQLMutationResolver {
 	@Autowired
 	private ZombieDtoAssembler zombieDtoAssembler;
 
-	public PlantDto addPlant(String plantType, Integer quantity) {
-		return plantDtoAssembler.assemble(plantService.savePlant(new Plant().setPlantType(plantType).setQuantity(quantity)));
+	public PlantDto addPlant(Long gardenId, String plantType, Integer quantity) {
+		return plantDtoAssembler.assemble(plantService.savePlant(new Plant().setPlantType(plantType).setQuantity(quantity).setGardenId(gardenId)));
 	}
 
 	public ZombieDto plantHitZombie(Long zombieId, Integer hitPoints) {
