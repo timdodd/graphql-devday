@@ -20,3 +20,7 @@ webapp in some form. Hopefully you use the plantHitZombie mutation :)
 ## Exercise #5
 There is a [pokemon GraphQL endpoint](https://pokeapi-graphiql.herokuapp.com/) out there. Write an amazing query to help
 your Pokemon Go! co-workers look up some pokemon or something.
+
+## Exercise #6
+Reactive is the future!!! Play around with graphql and webflux... show us your stuff.
+https://github.com/geowarin/graphql-webflux
