@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {GardenService} from "./garden.service";
 import {Garden} from "./model/Garden";
 import {Subscription} from "rxjs/internal/Subscription";
+import {PlantService} from "./plant.service";
 
 @Component({
   selector: 'app-root',

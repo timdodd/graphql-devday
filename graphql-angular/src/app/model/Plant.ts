@@ -1,4 +1,5 @@
 export interface Plant {
-  title: string;
-  description: string;
+  id: number;
+  plantType: string;
+  quantity: number;
 }
