@@ -24,3 +24,6 @@ your Pokemon Go! co-workers look up some pokemon or something.
 ## Exercise #6
 Reactive is the future!!! Play around with graphql and webflux... show us your stuff.
 https://github.com/geowarin/graphql-webflux
+
+## Exercise #7
+Add a UUID scalar type to your graphql server.
