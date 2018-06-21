@@ -2,6 +2,7 @@ package com.jimrennie.graphql.devday.core.service;
 
 import com.jimrennie.graphql.devday.core.entity.Zombie;
 import com.jimrennie.graphql.devday.core.repository.ZombieRepository;
+import com.jimrennie.graphql.devday.graphql.api.ZombieDto;
 import graphql.execution.batched.Batched;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,4 +53,14 @@ public class ZombieService {
 		zombieRepository.deleteById(id);
 	}
 
+	public Zombie injureZombie(Long zombieId, Integer hitPoints) {
+		Zombie zombie = zombieRepository.getOne(zombieId);
+		if (zombie.getHitPoints() < hitPoints) {
+			zombieRepository.delete(zombie);
+			return null;
+		}
+		zombie.setHitPoints(zombie.getHitPoints() - hitPoints);
+		zombieRepository.save(zombie);
+		return zombie;
+	}
 }

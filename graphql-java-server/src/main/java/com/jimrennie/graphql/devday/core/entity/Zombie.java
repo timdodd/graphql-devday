@@ -25,7 +25,7 @@ public class Zombie {
 	@Column(name = "ZOMBIE_TYPE", nullable = false)
 	private String zombieType;
 
-	@Column(name = "HITPOINTS", nullable = false)
+	@Column(name = "HIT_POINTS", nullable = false)
 	private Integer hitPoints = 0;
 
 	@Column(name = "GARDEN_ID")

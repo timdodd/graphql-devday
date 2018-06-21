@@ -26,5 +26,12 @@ Angular project
     ```
 * Read the [Basic Queries](https://www.apollographql.com/docs/angular/basics/queries.html#basics) section to understand
 how to use the Apollo client.
-* In the `GardenService` replace the contents of the `getGardens()` method with a query to get all the gardens. Make sure
-you use the `watchQuery` method. It is much more powerful.
+* In the `GardenService` replace the contents of the `getGardens()` method with a query to get all the gardens. Use the 
+`watchQuery` method instead of the query method.
+  * The query should return an Observable of type Garden with all of the fields in the Garden filled in.
+  
+#### Test it out
+To test it out you should be able to hit [http://localhost:4200](http://localhost:4200) and see garden data populated in
+the tables.
+
+
