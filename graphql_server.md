@@ -609,11 +609,117 @@ query {
 ```
 
 __Response__
-The response should call asynchronously across the 
+The response should call asynchronously across the graph and improve performance.
 
 </p></details>
 
-## Exercise #7 - It's a Cemetary Here!!!
+## Exercise #7 - Plants fight Back!!!
+ 
+ #### Tasks
+The Plants are not just going to take this sitting down! Their newfound mutations provide them with the necessary defense against the nefarious necrotic ne're-do-wells. Create another mutation called
+
+Mutations aren't just there to add items - we can also perform mutations across items:
+
+1. Craete a schema mutation called plantHitZombie that passes the zombie ID and the number of hit points to reduce.
+2. Implement the underlying Resolver method and entity changes.
+
+<details><summary>Answer</summary><p>
+
+__schema.graphqls__
+```graphql
+type Garden {
+    id: ID!
+    title: String!
+    description: String
+    plants(plantType: String): [Plant]!
+    zombies(zombieType: String): [Zombie]!
+}
+
+type Plant {
+    id: ID!
+    plantType: String!
+    quantity: Int!
+}
+
+type Zombie {
+    id: ID!
+    zombieType: String!
+    hitPoints: Int!
+}
+
+type Query {
+    gardens: [Garden]!
+    plants(plantType: String!): [Plant]!
+    zombie(zombieType: String!): [Zombie]!
+}
+
+type Mutation {
+    addPlant(gardenId: ID!, plantType: String!, quantity: Int): Plant!
+    incrementPlantQuantity(plantId: ID!): Plant!
+    plantHitZombie(zombieId: ID!, hitPoints: Int): Zombie!
+}
+```
+
+__MutationResolver.java__
+```java
+package com.jimrennie.graphql.devday.graphql.resolver;
+
+import com.coxautodev.graphql.tools.GraphQLMutationResolver;
+import com.jimrennie.graphql.devday.core.entity.Plant;
+import com.jimrennie.graphql.devday.core.service.PlantService;
+import com.jimrennie.graphql.devday.core.service.ZombieService;
+import com.jimrennie.graphql.devday.graphql.api.PlantDto;
+import com.jimrennie.graphql.devday.graphql.api.ZombieDto;
+import com.jimrennie.graphql.devday.graphql.assembler.PlantDtoAssembler;
+import com.jimrennie.graphql.devday.graphql.assembler.ZombieDtoAssembler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+public class MutationResolver implements GraphQLMutationResolver {
+
+	@Autowired
+	private PlantService plantService;
+	@Autowired
+	private PlantDtoAssembler plantDtoAssembler;
+	@Autowired
+	private ZombieService zombieService;
+	@Autowired
+	private ZombieDtoAssembler zombieDtoAssembler;
+
+	public PlantDto addPlant(Long gardenId, String plantType, Integer quantity) {
+		return plantDtoAssembler.assemble(plantService.savePlant(new Plant().setPlantType(plantType).setQuantity(quantity).setGardenId(gardenId)));
+	}
+
+	public PlantDto incrementPlantQuantity(Long plantId) {
+		plantService.incrementPlantQuantity(plantId);
+		return plantDtoAssembler.assemble(plantService.getPlantById(plantId));
+	}
+
+	public ZombieDto plantHitZombie(Long zombieId, Integer hitPoints) {
+		return zombieDtoAssembler.assemble(zombieService.injureZombie(zombieId, hitPoints));
+	}
+
+}
+
+```
+
+__Query__
+```graphql
+mutation {
+  addPlant(
+    gardenId: 1
+    plantType: "RadioactivePotato"
+    quantity: 100
+  ) {
+      plantType
+      quantity 
+  }
+}
+
+```
+
+## Exercise #8 - It's a Cemetary Here!!!
  
  #### Tasks
 A few zombies here and there is manageable... what if an entire colony of the same type of Zombies are needed for different reasons. Does it make sense to fetch them one at a time? What if it's the same Zombie reviving itself over and over again.
