@@ -507,7 +507,6 @@ type Zombie {
 type Query {
     gardens: [Garden]!
     plants(plantType: String!): [Plant]!
-    zombie(zombieType: String!): [Zombie]!
 }
 
 type Mutation {
