@@ -1,6 +1,6 @@
 # GraphQL Server
 
-In this section we are going to setup a GraphQL server using Spring Boot. Before we get started please read about 
+In this section we are going to setup a GraphQL server using Spring Boot. Before we get started please read about
 [GraphQL Execution](https://graphql.github.io/learn/execution/) so that you have a grasp on the terminology we are going
 to use.
 
@@ -17,7 +17,7 @@ You are obsessed with gardening but you can never remember how many and what typ
 any good programmer, you decide the best way to deal with this problem is to write a little garden inventory application.
 
 ###### What is already done for you
-* `Garden` and `Plant` JPA entities. Garden has many Plants. 
+* `Garden` and `Plant` JPA entities. Garden has many Plants.
   * Repositories and CRUD services for those entities are also done
   * `hsqldb` is setup as the database.
   * Assemblers to convert those JPA entities into your dtos.
@@ -26,13 +26,13 @@ any good programmer, you decide the best way to deal with this problem is to wri
     * This handles most of the configuration needed to get a GraphQL endpoint up and running.
   * `com.graphql-java:graphql-java-tools`
     * A schema-first tool for graphql-java inspired by graphql-tools for Javascript
-    * There a number of other [GraphQL Libraries](https://github.com/graphql-java/awesome-graphql-java) we could have used. 
+    * There a number of other [GraphQL Libraries](https://github.com/graphql-java/awesome-graphql-java) we could have used.
 This library is very well supported and so things don't get too confusing that is all we are going to use.
   * `com.graphql-java:graphiql-spring-boot-starter`
     * A graphical interactive in-browser GraphQL IDE that we can use to query our Garden application.
 * If you find yourself stuck and the answers aren't helping, check out the [graphql-java-server-answer](graphql-angular-answer) directory
 for a complete version of the server.    
-    
+
 ## Exercise #1 - Garden Root Query
 
 #### Prerequisites
@@ -66,7 +66,7 @@ Since `graphql-java-tools` is schema first we will be creating a schema, and the
   query tool.
 * Write a query to get all the Gardens back and run it to confirm it is working correctly.
 
-             
+
 <details><summary>Answer</summary><p>
 
 __schema.graphqls__
@@ -110,7 +110,7 @@ public class QueryResolver implements GraphQLQueryResolver {
 				.map(gardenDtoAssembler::assemble)
 				.collect(Collectors.toList());
 	}
-	
+
 }
 ```
 
@@ -159,9 +159,9 @@ the Plant entity.
 #### Testing
 * Restart your server
   * If it didn't start, check the stacktrace. It is sometimes helpful.
-* Write a query to get all the plants back with a certain plantType. 
+* Write a query to get all the plants back with a certain plantType.
   * Sample data: Basil, Tomato, Parsley
-  
+
 <details><summary>Answer</summary><p>
 
 __schema.graphqls__
@@ -311,9 +311,9 @@ query {
   }
 }
  ```
- 
+
 <details><summary>Answer</summary><p>
- 
+
  __schema.graphqls__
  ```graphql schema
 type Garden {
@@ -334,7 +334,7 @@ type Query {
     plants(plantType: String!): [Plant]!
 }
  ```
- 
+
  __GardenResolver.java__
  ```java
 package com.jimrennie.graphql.devday.graphql.resolver;
@@ -369,11 +369,11 @@ public class GardenResolver implements GraphQLResolver<GardenDto> {
 	}
 }
  ```
- 
+
  </p></details>
- 
+
  ## Exercise #4 - Modifying (Mutating) a Plant
- 
+
  #### Tasks
 A nuclear winter has settled in... Plant mutations are abundant... it's time to add new radioactive plants or change your plants characteristics in light of this dystopian legumic future.
 
@@ -445,7 +445,7 @@ mutation {
     quantity: 100
   ) {
       plantType
-      quantity 
+      quantity
   }
 }
 ```
@@ -465,19 +465,20 @@ __Response__
 </p></details>
 
 ## Exercise #5 - We need more plants!
-As one of the last gardens in the area, people are gravitating to your gardens. You need to plant more ASAP! Add an 
+As one of the last gardens in the area, people are gravitating to your gardens. You need to plant more ASAP! Add an
 `incrementPlantQuantity` mutation that accepts a `plantId` and returns the Plant before it's too late.
 
 ## Exercise #6 - Zombies!!!
- 
+
  #### Tasks
-The skies boil grey and blue... lightning rips the broken earth. Moaning drifts from beyond the horizon. Slow lumbering forms are seen in the distance... so slow... 
+The skies boil grey and blue... lightning rips the broken earth. Moaning drifts from beyond the horizon. Slow lumbering forms are seen in the distance... so slow...
 
 How do we leverage GraphQL to manage performance concerns across the graph - well, we have two ways to do this. The first is simply by the beauty of a graph - if you don't reference the node in the query - you will not traverse the graph to fetch it.
 
 How are we going to speed up the multiple calls to the Zombie Service?
 
 1. Use a CompletableFuture.supplyAsync() within the resolver
+2. Use the answer for inspiration on how to complete this exercise.
 
 <details><summary>Answer</summary><p>
 
@@ -563,7 +564,7 @@ public class GardenResolver implements GraphQLResolver<GardenDto> {
 	public CompletionStage<List<ZombieDto>> getZombies(GardenDto gardenDto, String zombieType) {
 		return CompletableFuture.supplyAsync(()->findZombies(new GardenDtoType().setGarden(gardenDto).setType(zombieType)));
 	}
-	
+
 	private List<ZombieDto> findZombies(GardenDtoType gardenDtoType) {
 		final long startTime = System.currentTimeMillis();
 		return Optional.ofNullable(gardenDtoType.getType())
@@ -610,13 +611,13 @@ The response should call asynchronously across the graph and improve performance
 </p></details>
 
 ## Exercise #7 - Plants fight Back!!!
- 
+
  #### Tasks
 The Plants are not just going to take this sitting down! Their newfound mutations provide them with the necessary defense against the nefarious necrotic ne're-do-wells. Create another mutation called
 
 Mutations aren't just there to add items - we can also perform mutations across items:
 
-1. Craete a schema mutation called plantHitZombie that passes the zombie ID and the number of hit points to reduce.
+1. Create a schema mutation called plantHitZombie that passes the zombie ID and the number of hit points to reduce.
 2. Implement the underlying Resolver method and entity changes.
 
 <details><summary>Answer</summary><p>
@@ -709,15 +710,15 @@ mutation {
     quantity: 100
   ) {
       plantType
-      quantity 
+      quantity
   }
 }
 ```
 
 </p></details>
 
-## Exercise #8 - It's a Cemetary Here!!!
- 
+## Exercise #8 - It's a Cemetery Here!!!
+
  #### Tasks
 A few zombies here and there is manageable... what if an entire colony of the same type of Zombies are needed for different reasons. Does it make sense to fetch them one at a time? What if it's the same Zombie reviving itself over and over again.
 
@@ -727,5 +728,4 @@ If a node that has a high performance cost (or multiple calls in a query)... and
 Fortunately There is also a graphql-java port of this library. It also provides convenient utility for gathering statistics on the cache hits for the batching of calls.
 [https://github.com/graphql-java/java-dataloader](https://github.com/graphql-java/java-dataloader)
 
-This is an advanced question (Which means I never got it implemented properly... Let's see if we anyone can implement it!
-
+This is an advanced question which means I never got it implemented properly... Let's see if we anyone can implement it!

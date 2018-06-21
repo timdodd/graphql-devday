@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Slf4j
+@Transactional
 @Service
 public class ZombieService {
 
