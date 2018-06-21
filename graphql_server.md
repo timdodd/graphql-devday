@@ -381,7 +381,7 @@ The easiest way to perform this madness is to:
 
 1. Create a class that `implements GraphQLMutationResolver` called `MutationResolver`
 2. Add the `@Component` annotation to the class,
-3. Add methods `addPlant` that accepts a plantType and quantity.
+3. Add methods `addPlant` that accepts gardenId, plantType and quantity.
 4. Use the PlantService to save the plant.
 
 <details><summary>Answer</summary><p>
