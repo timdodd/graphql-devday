@@ -1,7 +1,7 @@
 
 # GraphQL Development Day
 
-![GraphQL Logo](GraphQL_Logo.png)
+![GraphQL Logo](graphql_logo.jpg)
 
 ##### Welcome to the GraphQL development day! Please start off by reading [Introduction to GraphQL](https://graphql.org/learn/) to get an overview of GraphQL.
 
