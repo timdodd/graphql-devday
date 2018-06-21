@@ -725,7 +725,7 @@ mutation {
  #### Tasks
 A few zombies here and there is manageable... what if an entire colony of the same type of Zombies are needed for different reasons. Does it make sense to fetch them one at a time? What if it's the same Zombie reviving itself over and over again.
 
-If a node that has a high performance cost (or multiple nodes)... and perhaps this node is traversed multiple times with the same key (N+1) there are ways to mitigate a performance hit through batching/cacheing. Facebook provides a library called "Dataloader" to work with graphql-js to help out.
+If a node that has a high performance cost (or multiple calls in a query)... and perhaps this node is traversed multiple times (child) with a different key (N+1) there are ways to mitigate a performance hit through batching/cacheing. Facebook provides a library called "Dataloader" to work with graphql-js to help out.
 [https://github.com/facebook/dataloader](https://github.com/facebook/dataloader)
 
 Fortunately There is also a graphql-java port of this library. It also provides convenient utility for gathering statistics on the cache hits for the batching of calls.
