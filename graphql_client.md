@@ -12,7 +12,7 @@ In this section we are going to integrate with the GraphQL endpoint we just crea
 ## Quick Tour
 We are going to be building a client for the server that we just built in **section 2**. This project uses Angular 6 and
 has `bootstrap` and `ng-bootstrap` installed. You will be primarily working with the services in the project. Everything
-else should be completed for you already unless you are working on more advanced questions. If you find yourself stuck and 
+else should be completed for you already unless you are working on more advanced questions. If you find yourself stuck 
 check out the [graphql-angular-answer](graphql-angular-answer) directory for a complete version of the client.    
 
 ## Exercise #1 - My First Angular GraphQL Query
